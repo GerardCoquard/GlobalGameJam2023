@@ -45,7 +45,12 @@ public class RootController : MonoBehaviour
         m_TotalDistance = 0;
         m_Growing = false;
         m_CurrentRoots = new List<GrowShaderCode>();
-        
+
+        for(int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+
         GameObject l_node = Instantiate(m_NodePrefab, transform.position, Quaternion.identity);//poner nodo inicial personalizao si eso
         l_node.transform.SetParent(transform);
     }
