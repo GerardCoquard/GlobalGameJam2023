@@ -6,7 +6,7 @@ public class InputUnityEvent : UnityEvent<InputAction.CallbackContext>
     //Base event class of action events
     public string actionName; //Action name
     bool _enabled; //If this event can be triggered
-
+    InputAction action;
     //Specific events
     public UnityEvent startedAction; 
     public UnityEvent performedAction;
@@ -18,6 +18,7 @@ public class InputUnityEvent : UnityEvent<InputAction.CallbackContext>
         //Sets Action enabled
         //Links action event to this event
         //Links specific action events to this specific events (started, performed, canceled)
+        action = _action;
         actionName = _action.name;
         _enabled = true;
         startedAction = new UnityEvent();
@@ -49,5 +50,9 @@ public class InputUnityEvent : UnityEvent<InputAction.CallbackContext>
         startedAction.RemoveAllListeners();
         performedAction.RemoveAllListeners();
         canceledAction.RemoveAllListeners();
+    }
+    public InputAction GetAction()
+    {
+        return action;
     }
 }
