@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     public Dictionary<string, AudioClip> m_SoundsDictionary;
     private AudioSource m_MyAudioSource;
+
+    public AudioMixer m_MyAudioMixer;
     private void Awake()
     {
         if(instance == null)
@@ -63,6 +66,7 @@ public class AudioManager : MonoBehaviour
             l_audioSource.minDistance = minDistance;
             l_audioSource.maxDistance = maxDistance;
             l_audioSource.transform.position = spawnPosition;
+            l_audioSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("SFX")[0];
             l_audioSource.Play();
         }
         else

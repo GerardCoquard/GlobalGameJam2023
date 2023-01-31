@@ -700,6 +700,8 @@ MonoBehaviour:
     m_Bits: 128
   pointerPrefab: {fileID: 2778071278569031471, guid: c4a2395c2b51b4e469b4834071cc1828,
     type: 3}
+  currentPointerMaterial: {fileID: 2100000, guid: 216d2dfc11e8c5147b0fa545e1f2be93,
+    type: 2}
 --- !u!143 &373262307
 CharacterController:
   m_ObjectHideFlags: 0

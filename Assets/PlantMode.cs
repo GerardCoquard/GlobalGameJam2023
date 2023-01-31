@@ -16,6 +16,8 @@ public class PlantMode : MonoBehaviour
 
     public GameObject pointerPrefab;
     GameObject currentPointer;
+
+    public Material currentPointerMaterial;
     private void Update() {
         if(InputManager.GetAction("Fire").WasPressedThisFrame())Grow();
         if(InputManager.GetAction("Fire").WasReleasedThisFrame())StopGrow();
@@ -25,7 +27,9 @@ public class PlantMode : MonoBehaviour
     void Grow()
     {
         RaycastHit hit;
+        
         if(Physics.Raycast(cam.transform.position,cam.transform.forward,out hit, Mathf.Infinity,layerMask)) controller.StrartGrowing(hit.point);
+        
         if(currentPointer != null)
         {
             Destroy(currentPointer.gameObject);
@@ -33,6 +37,8 @@ public class PlantMode : MonoBehaviour
         }
         GameObject pointer = Instantiate(pointerPrefab, hit.point, Quaternion.identity);
         currentPointer = pointer;
+
+        
     }
     void StopGrow()
     {
