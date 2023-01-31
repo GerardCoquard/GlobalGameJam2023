@@ -4,44 +4,33 @@ using UnityEngine;
 
 public class GrowShaderCode : MonoBehaviour
 {
-
-    public List<MeshRenderer> m_GrowMeshes;
-
     [Range(0f, 1f)]
     public float m_MinGrow = 0f;
     [Range(0f, 1f)]
     public float m_MaxGrow = 1f;
 
     private List<Material> m_GrowMaterials = new List<Material>();
-
-
     void Start()
     {
-        SetGrowMaterials(m_GrowMeshes);
+        SetGrowMaterials(GetComponent<MeshRenderer>());
     }
 
-    public void SetGrowMaterials(List<MeshRenderer> meshes)
+    public void SetGrowMaterials(MeshRenderer mesh)
     {
-        for (int i = 0; i < meshes.Count; i++)
+        for (int j = 0; j < mesh.materials.Length; j++)
         {
-            for (int j = 0; j < meshes[i].materials.Length; j++)
+            if (mesh.materials[j].HasProperty("Grow_"))
             {
-                if (meshes[i].materials[j].HasProperty("Grow_"))
-                {
-                    meshes[i].materials[j].SetFloat("Grow_", m_MinGrow);
-                    m_GrowMaterials.Add(meshes[i].materials[j]);
-                }
+                mesh.materials[j].SetFloat("Grow_", m_MinGrow);
+                m_GrowMaterials.Add(mesh.materials[j]);
             }
         }
-        
-
     }
 
     public bool IsCompleted()
     {
         return m_GrowMaterials[0].GetFloat("Grow_") >= 1;
     }
-
    
     public void SetGrowValue(float amount)
     {

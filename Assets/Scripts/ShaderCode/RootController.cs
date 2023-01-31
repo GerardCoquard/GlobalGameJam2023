@@ -5,9 +5,9 @@ using UnityEngine;
 public class RootController : MonoBehaviour
 {
 
-    private float m_Distance;
+    public float m_Distance;
     public float m_MaxDistance = 100f;
-    float m_TotalDistance;
+    public float m_TotalDistance;
     public float m_GrowthSpeed = 10f;
     Vector3 m_GrowthDirection;
 
@@ -21,25 +21,8 @@ public class RootController : MonoBehaviour
     List<GrowShaderCode> m_CurrentRoots = new List<GrowShaderCode>();
 
     Vector3 m_NextPosition;
-
-    private void Update()
-    {
-        
-        if (Input.GetKey(KeyCode.P))
-        {
-            m_Distance += m_GrowthSpeed * Time.deltaTime;
-        }
-        if (Input.GetKeyUp(KeyCode.P))
-        {
-            m_Distance = 0;
-            m_CurrentRoots = new List<GrowShaderCode>();
-            //crear nodo
-        }
-
-    }
     public void StopGrow()
     {
-        StopAllCoroutines();
         Vector3 l_DirectioNode = (Mathf.CeilToInt(m_TotalDistance / m_RootLength) - (m_TotalDistance / m_RootLength)) * m_GrowthDirection;
         Vector3 l_NodePosition = m_NextPosition - l_DirectioNode;
         GameObject l_node = Instantiate(m_NodePrefab, l_NodePosition, Quaternion.identity);
@@ -48,6 +31,7 @@ public class RootController : MonoBehaviour
         m_TotalDistance += m_Distance;
         m_CurrentRoots = new List<GrowShaderCode>();
         m_Distance = 0;
+        StopAllCoroutines();
     }
     void SetRootsAmount()
     {
@@ -55,6 +39,25 @@ public class RootController : MonoBehaviour
         int neededSegments = newSegments - m_CurrentRoots.Count;
         if (neededSegments > 0) AddRoots();
        
+    }
+    void SetRootsFills()
+    {
+        for (int i = 1; i <= m_CurrentRoots.Count; i++)
+        {
+            if(i*m_RootLength < m_Distance)
+            {
+                m_CurrentRoots[i-1].SetGrowValue(1);
+            }
+            else
+            {
+                float currentAmount = (m_RootLength - (i*m_RootLength - m_Distance))/m_RootLength;
+                m_CurrentRoots[i-1].SetGrowValue(currentAmount);
+            }
+        }
+    }
+    public void StrartGrowing(Vector3 target)
+    {
+        StartCoroutine(Grow(target));
     }
 
     IEnumerator Grow(Vector3 target)
@@ -71,23 +74,21 @@ public class RootController : MonoBehaviour
         while (CheckMaxDistance() && CheckCollision(l_InitialPosition))
         {
             m_Distance += m_GrowthSpeed * Time.deltaTime;
+            m_Distance = Mathf.Clamp(m_Distance,0,m_MaxDistance - m_TotalDistance);
             SetRootsAmount();
+            SetRootsFills();
+            yield return null;
         }
         StopGrow();
-        yield return null;
     }
 
     bool CheckMaxDistance()
     {
         return m_TotalDistance + m_Distance < m_MaxDistance;
     }
-
     bool CheckCollision(Vector3 initialPosition)
     {
-        Ray l_Ray = new Ray(initialPosition, m_GrowthDirection);
-        RaycastHit l_RayHit;
-
-        if(Physics.Raycast(l_Ray, out l_RayHit, m_CollisionOffset, m_CollisionLayer.value))
+        if(Physics.Raycast(initialPosition,m_GrowthDirection,m_Distance + m_CollisionOffset, m_CollisionLayer))
         {
             return false;
         }
@@ -101,24 +102,7 @@ public class RootController : MonoBehaviour
         GameObject l_Root = Instantiate(m_RootPrefab, m_NextPosition, Quaternion.identity);
         l_Root.transform.forward = m_GrowthDirection;
         l_Root.transform.SetParent(transform);
-        m_CurrentRoots.Add(l_Root.GetComponent<GrowShaderCode>());
+        m_CurrentRoots.Add(l_Root.GetComponentInChildren<GrowShaderCode>());
         m_NextPosition = l_Root.transform.position + (m_GrowthDirection * m_RootLength);
     }
-
-    void RemoveRoots()
-    {
-
-    }
-
-   
-
-   
-
-
-        
-    
-
-    
-
-
 }
