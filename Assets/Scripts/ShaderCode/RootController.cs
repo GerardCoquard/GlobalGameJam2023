@@ -18,6 +18,7 @@ public class RootController : MonoBehaviour
     public GameObject m_NodePrefab;
     public float m_RootLength;
     bool m_Growing;
+    
 
     List<GrowShaderCode> m_CurrentRoots = new List<GrowShaderCode>();
 

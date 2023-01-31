@@ -20,8 +20,8 @@ public class GrowShaderCode : MonoBehaviour
     private Vector3 m_TriggerCenter;
 
     public bool m_Grown;
-    
-     
+
+    public float m_TriggerOffset = 0.25f;
     void Awake()
     {
         SetGrowMaterials(GetComponent<MeshRenderer>());
@@ -57,7 +57,7 @@ public class GrowShaderCode : MonoBehaviour
         m_MyCollider.center = new Vector3(m_ColliderCenter.x, l_newCenter, m_ColliderCenter.z);
         m_MyCollider.size = new Vector3(m_MaxColliderSize.x,l_newSize, m_MaxColliderSize.z);
 
-        m_MyTrigger.center = new Vector3(m_TriggerCenter.x, -((-m_MaxColliderSize.y / 2f) + l_newSize), m_TriggerCenter.z);
+        m_MyTrigger.center = new Vector3(m_TriggerCenter.x, -((-m_MaxColliderSize.y / 2f) + l_newSize), m_TriggerCenter.z + m_TriggerOffset);
        
         
         for (int i = 0; i < m_GrowMaterials.Count; i++)
