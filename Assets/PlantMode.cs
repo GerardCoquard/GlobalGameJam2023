@@ -21,6 +21,7 @@ public class PlantMode : MonoBehaviour
     }
     void StopGrow()
     {
+        
         controller.StopGrow();
     }
 }

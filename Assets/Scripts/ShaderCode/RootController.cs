@@ -17,22 +17,28 @@ public class RootController : MonoBehaviour
     public GameObject m_RootPrefab;
     public GameObject m_NodePrefab;
     public float m_RootLength;
+    bool m_Growing;
 
     List<GrowShaderCode> m_CurrentRoots = new List<GrowShaderCode>();
 
     Vector3 m_NextPosition;
     public void StopGrow()
     {
-        Vector3 l_DirectioNode = (Mathf.CeilToInt(m_TotalDistance / m_RootLength) - (m_TotalDistance / m_RootLength)) * m_GrowthDirection;
+
+        if (!m_Growing) return;
+        Vector3 l_DirectioNode = (Mathf.CeilToInt(m_Distance / m_RootLength) - (m_Distance / m_RootLength)) * m_RootLength * m_GrowthDirection ;
         Vector3 l_NodePosition = m_NextPosition - l_DirectioNode;
         GameObject l_node = Instantiate(m_NodePrefab, l_NodePosition, Quaternion.identity);
         l_node.transform.SetParent(transform);
 
         m_TotalDistance += m_Distance;
         m_CurrentRoots = new List<GrowShaderCode>();
+        m_Growing = false;
         m_Distance = 0;
         StopAllCoroutines();
     }
+
+    
     void SetRootsAmount()
     {
         int newSegments = Mathf.CeilToInt(m_Distance / m_RootLength);
@@ -42,28 +48,36 @@ public class RootController : MonoBehaviour
     }
     void SetRootsFills()
     {
-        for (int i = 1; i <= m_CurrentRoots.Count; i++)
+
+        /*for (int i = 1; i <= m_CurrentRoots.Count; i++)
         {
-            if(i*m_RootLength < m_Distance)
+            if (m_CurrentRoots[i - 1].IsCompleted()) continue;
+            if (i * m_RootLength < m_Distance)
             {
-                m_CurrentRoots[i-1].SetGrowValue(1);
+                m_CurrentRoots[i - 1].SetGrowValue(1);
             }
             else
             {
-                float currentAmount = (m_RootLength - (i*m_RootLength - m_Distance))/m_RootLength;
-                m_CurrentRoots[i-1].SetGrowValue(currentAmount);
+                float currentAmount = (m_RootLength - (i * m_RootLength - m_Distance)) / m_RootLength;
+                m_CurrentRoots[i - 1].SetGrowValue(currentAmount);
             }
-        }
+        }*/
+        float currentAmount = (m_RootLength - (m_CurrentRoots.Count * m_RootLength - m_Distance)) / m_RootLength;
+        m_CurrentRoots[m_CurrentRoots.Count-1].SetGrowValue(currentAmount);
     }
     public void StrartGrowing(Vector3 target)
     {
-        StartCoroutine(Grow(target));
+        if (CheckMaxDistance())
+        {
+            StartCoroutine(Grow(target));
+        }
+       
     }
 
     IEnumerator Grow(Vector3 target)
     {
-        m_Distance = 0;
-
+       
+        m_Growing = true;
         Vector3 l_InitialPosition = transform.GetChild(transform.childCount - 1).position;
         m_GrowthDirection = target - l_InitialPosition;
         m_GrowthDirection.Normalize();
@@ -79,14 +93,15 @@ public class RootController : MonoBehaviour
             SetRootsFills();
             yield return null;
         }
+        
         StopGrow();
     }
 
-    bool CheckMaxDistance()
+    public bool CheckMaxDistance()
     {
         return m_TotalDistance + m_Distance < m_MaxDistance;
     }
-    bool CheckCollision(Vector3 initialPosition)
+    public bool CheckCollision(Vector3 initialPosition)
     {
         if(Physics.Raycast(initialPosition,m_GrowthDirection,m_Distance + m_CollisionOffset, m_CollisionLayer))
         {
