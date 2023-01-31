@@ -38,14 +38,23 @@ public class RootController : MonoBehaviour
         m_Distance = 0;
         StopAllCoroutines();
     }
-
+    public void Reset()
+    {
+        StopAllCoroutines();
+        m_Distance = 0;
+        m_TotalDistance = 0;
+        m_Growing = false;
+        m_CurrentRoots = new List<GrowShaderCode>();
+        
+        GameObject l_node = Instantiate(m_NodePrefab, transform.position, Quaternion.identity);//poner nodo inicial personalizao si eso
+        l_node.transform.SetParent(transform);
+    }
     
     void SetRootsAmount()
     {
         int newSegments = Mathf.CeilToInt(m_Distance / m_RootLength);
         int neededSegments = newSegments - m_CurrentRoots.Count;
         if (neededSegments > 0) AddRoots();
-       
     }
     void SetRootsFills()
     {

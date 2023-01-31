@@ -13,6 +13,7 @@ public class PlantMode : MonoBehaviour
     private void Update() {
         if(InputManager.GetAction("Fire").WasPressedThisFrame())Grow();
         if(InputManager.GetAction("Fire").WasReleasedThisFrame())StopGrow();
+        if(InputManager.GetAction("Aim").WasPressedThisFrame())Reset();
     }
     void Grow()
     {
@@ -21,7 +22,10 @@ public class PlantMode : MonoBehaviour
     }
     void StopGrow()
     {
-        
         controller.StopGrow();
+    }
+    void Reset()
+    {
+        controller.Reset();
     }
 }
