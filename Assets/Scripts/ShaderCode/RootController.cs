@@ -18,15 +18,17 @@ public class RootController : MonoBehaviour
     public GameObject m_NodePrefab;
     public float m_RootLength;
     bool m_Growing;
+    bool doingSomething;
     
 
     List<GrowShaderCode> m_CurrentRoots = new List<GrowShaderCode>();
+    List<GrowShaderCode> m_TotalRoots = new List<GrowShaderCode>();
 
     Vector3 m_NextPosition;
     public void StopGrow()
     {
-
         if (!m_Growing) return;
+        doingSomething = false;
         Vector3 l_DirectioNode = (Mathf.CeilToInt(m_Distance / m_RootLength) - (m_Distance / m_RootLength)) * m_RootLength * m_GrowthDirection ;
         Vector3 l_NodePosition = m_NextPosition - l_DirectioNode;
         GameObject l_node = Instantiate(m_NodePrefab, l_NodePosition, Quaternion.identity);
@@ -44,7 +46,9 @@ public class RootController : MonoBehaviour
         m_Distance = 0;
         m_TotalDistance = 0;
         m_Growing = false;
+        doingSomething = false;
         m_CurrentRoots = new List<GrowShaderCode>();
+        m_TotalRoots = new List<GrowShaderCode>();
 
         for(int i = transform.childCount - 1; i >= 0; i--)
         {
@@ -80,18 +84,27 @@ public class RootController : MonoBehaviour
         float currentAmount = (m_RootLength - (m_CurrentRoots.Count * m_RootLength - m_Distance)) / m_RootLength;
         m_CurrentRoots[m_CurrentRoots.Count-1].SetGrowValue(currentAmount);
     }
+    void SetDecreaseFills()
+    {
+        float currentAmount = (m_RootLength - (m_TotalRoots.Count * m_RootLength - m_TotalDistance)) / m_RootLength;
+        m_TotalRoots[m_TotalRoots.Count-1].SetGrowValue(currentAmount);
+    }
     public void StrartGrowing(Vector3 target)
     {
-        if (CheckMaxDistance())
-        {
-            StartCoroutine(Grow(target));
-        }
-       
+        if (CheckMaxDistance()) StartCoroutine(Grow(target));
+    }
+    public void StartDecreasing()
+    {
+        if(m_TotalRoots.Count != 0) StartCoroutine(Decrease());
+    }
+    public void StopDecreasing()
+    {
+        
     }
 
     IEnumerator Grow(Vector3 target)
     {
-       
+        doingSomething = true;
         m_Growing = true;
         Vector3 l_InitialPosition = transform.GetChild(transform.childCount - 1).position;
         m_GrowthDirection = target - l_InitialPosition;
@@ -110,6 +123,40 @@ public class RootController : MonoBehaviour
         }
         
         StopGrow();
+    }
+    IEnumerator Decrease()
+    {
+        doingSomething = true;
+        Transform lastNode = transform.GetChild(transform.childCount-1);
+        while (transform.childCount > 1)
+        {
+            m_TotalDistance -= m_GrowthSpeed * Time.deltaTime;
+            m_TotalDistance = Mathf.Clamp(m_TotalDistance,0,m_MaxDistance);
+            DecreaseRootAmount();
+            if(transform.childCount > 1)
+            {
+                SetDecreaseFills();
+                SetLastNode(lastNode);
+            }
+            yield return null;
+        }
+        lastNode.transform.position = transform.position;
+        doingSomething = false;
+    }
+    void SetLastNode(Transform node)
+    {
+        Vector3 lastRootPos = m_TotalRoots[m_TotalRoots.Count-1].transform.position;
+        float currentAmount = m_RootLength - (m_TotalRoots.Count * m_RootLength - m_TotalDistance);
+        Vector3 desiredDir = m_TotalRoots[m_TotalRoots.Count-1].transform.forward * currentAmount;
+        Vector3 desiredPosition = lastRootPos + desiredDir;
+
+        node.transform.position = desiredPosition;
+    }
+    void DecreaseRootAmount()
+    {
+        int newSegments = Mathf.CeilToInt(m_TotalDistance / m_RootLength);
+        int neededSegments = newSegments - m_TotalRoots.Count;
+        if (neededSegments != 0) RemoveRoots();
     }
 
     public bool CheckMaxDistance()
@@ -133,6 +180,13 @@ public class RootController : MonoBehaviour
         l_Root.transform.forward = m_GrowthDirection;
         l_Root.transform.SetParent(transform);
         m_CurrentRoots.Add(l_Root.GetComponentInChildren<GrowShaderCode>());
+        m_TotalRoots.Add(l_Root.GetComponentInChildren<GrowShaderCode>());
         m_NextPosition = l_Root.transform.position + (m_GrowthDirection * m_RootLength);
+    }
+    void RemoveRoots()
+    {
+        m_TotalRoots.Remove(m_TotalRoots[m_TotalRoots.Count-1]);
+        //if(transform.GetChild(transform.childCount-1) == //nodo)
+        DestroyImmediate(m_TotalRoots[m_TotalRoots.Count-1].gameObject);
     }
 }
