@@ -18,11 +18,18 @@ public class PlantMode : MonoBehaviour
     GameObject currentPointer;
 
     public Material currentPointerMaterial;
+
+    private bool planting;
     private void Update() {
         if(InputManager.GetAction("Fire").WasPressedThisFrame())Grow();
         if(InputManager.GetAction("Fire").WasReleasedThisFrame())StopGrow();
         if(InputManager.GetAction("Aim").WasPressedThisFrame())Reset();
         if (InputManager.GetAction("Interact").WasPressedThisFrame()) CheckIfControllerChanged();
+
+        if (planting)
+        {
+
+        }
     }
     void Grow()
     {
@@ -49,6 +56,12 @@ public class PlantMode : MonoBehaviour
         controller.Reset();
     }
 
+    void UpdatePointerState()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, layerMask)) controller.StrartGrowing(hit.point);
+    }
     void CheckIfControllerChanged()
     {
         Ray ray = new Ray(cam.transform.position,cam.transform.forward);
@@ -57,6 +70,7 @@ public class PlantMode : MonoBehaviour
         if(Physics.Raycast(ray, out hit, interactPlantDistance, interactPlantLayerMask))
         {
             SetNewController(hit.collider.gameObject.GetComponentInParent<RootController>());
+            planting = true;
         }
     }
 
