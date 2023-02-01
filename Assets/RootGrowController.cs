@@ -10,6 +10,7 @@ public class RootGrowController : MonoBehaviour
     private Vector3 m_ColliderCenter;
     private Vector3 m_MaxColliderSize;
     bool m_Grown;
+    float growAmount;
 
 
     private Vector3 m_TriggerCenter;
@@ -22,9 +23,9 @@ public class RootGrowController : MonoBehaviour
 
         m_TriggerCenter = m_MyTrigger.center;
     }
-    public bool IsCompleted()
+    public float GrowAmount()
     {
-        return m_Grown;
+        return growAmount;
     }
     public void SetGrowValue(float amount)
     {
@@ -39,7 +40,7 @@ public class RootGrowController : MonoBehaviour
         {
             item.SetGrowValue(amount);
         }
-
+        growAmount = amount;
         m_Grown = amount >= 1;
     }
 }
