@@ -21,8 +21,8 @@ public class RootController : MonoBehaviour
     bool doingSomething;
     
 
-    List<GrowShaderCode> m_CurrentRoots = new List<GrowShaderCode>();
-    List<GrowShaderCode> m_TotalRoots = new List<GrowShaderCode>();
+    List<RootGrowController> m_CurrentRoots = new List<RootGrowController>();
+    List<RootGrowController> m_TotalRoots = new List<RootGrowController>();
 
     Vector3 m_NextPosition;
     public void StopGrow()
@@ -35,7 +35,7 @@ public class RootController : MonoBehaviour
         l_node.transform.SetParent(transform);
 
         m_TotalDistance += m_Distance;
-        m_CurrentRoots = new List<GrowShaderCode>();
+        m_CurrentRoots = new List<RootGrowController>();
         m_Growing = false;
         m_Distance = 0;
         StopAllCoroutines();
@@ -47,8 +47,8 @@ public class RootController : MonoBehaviour
         m_TotalDistance = 0;
         m_Growing = false;
         doingSomething = false;
-        m_CurrentRoots = new List<GrowShaderCode>();
-        m_TotalRoots = new List<GrowShaderCode>();
+        m_CurrentRoots = new List<RootGrowController>();
+        m_TotalRoots = new List<RootGrowController>();
 
         for(int i = transform.childCount - 1; i >= 0; i--)
         {
@@ -179,8 +179,8 @@ public class RootController : MonoBehaviour
         GameObject l_Root = Instantiate(m_RootPrefab, m_NextPosition, Quaternion.identity);
         l_Root.transform.forward = m_GrowthDirection;
         l_Root.transform.SetParent(transform);
-        m_CurrentRoots.Add(l_Root.GetComponentInChildren<GrowShaderCode>());
-        m_TotalRoots.Add(l_Root.GetComponentInChildren<GrowShaderCode>());
+        m_CurrentRoots.Add(l_Root.GetComponent<RootGrowController>());
+        m_TotalRoots.Add(l_Root.GetComponent<RootGrowController>());
         m_NextPosition = l_Root.transform.position + (m_GrowthDirection * m_RootLength);
     }
     void RemoveRoots()

@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Distance: 0
   m_MaxDistance: 50
   m_TotalDistance: 0
-  m_GrowthSpeed: 10
+  m_GrowthSpeed: 5
   m_CollisionOffset: 0.5
   m_CollisionLayer:
     serializedVersion: 2
@@ -164,7 +164,7 @@ MonoBehaviour:
     type: 3}
   m_NodePrefab: {fileID: 8990452323522538346, guid: 1eafc2c75fb2930408c366bee94e7e0b,
     type: 3}
-  m_RootLength: 2
+  m_RootLength: 2.922411
 --- !u!4 &20101557
 Transform:
   m_ObjectHideFlags: 0
@@ -1959,6 +1959,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   cam: {fileID: 330585546}
+  interactPlantDistance: 50
+  interactPlantLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  pointerPrefab: {fileID: 2778071278569031471, guid: c4a2395c2b51b4e469b4834071cc1828,
+    type: 3}
+  currentPointerMaterial: {fileID: 0}
 --- !u!54 &1600153423
 Rigidbody:
   m_ObjectHideFlags: 0

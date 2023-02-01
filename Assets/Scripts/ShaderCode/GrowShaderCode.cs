@@ -10,27 +10,9 @@ public class GrowShaderCode : MonoBehaviour
     public float m_MaxGrow = 1f;
 
     private List<Material> m_GrowMaterials = new List<Material>();
-    public BoxCollider m_MyCollider;
-    public BoxCollider m_MyTrigger;
-
-    private Vector3 m_ColliderCenter;
-    private Vector3 m_MaxColliderSize;
-
-
-    private Vector3 m_TriggerCenter;
-
-    public bool m_Grown;
-
-    public float m_TriggerOffset = 0.25f;
     void Awake()
     {
         SetGrowMaterials(GetComponent<MeshRenderer>());
-       
-
-        m_MaxColliderSize = m_MyCollider.size;
-        m_ColliderCenter = m_MyCollider.center;
-
-        m_TriggerCenter = m_MyTrigger.center;
     }
 
     public void SetGrowMaterials(MeshRenderer mesh)
@@ -44,45 +26,12 @@ public class GrowShaderCode : MonoBehaviour
             }
         }
     }
-
-    public bool IsCompleted()
-    {
-        return m_Grown;
-    }
    
     public void SetGrowValue(float amount)
     {
-        float l_newSize = amount * m_MaxColliderSize.y;
-        float l_newCenter = (m_MaxColliderSize.y - l_newSize) / 2;
-        m_MyCollider.center = new Vector3(m_ColliderCenter.x, l_newCenter, m_ColliderCenter.z);
-        m_MyCollider.size = new Vector3(m_MaxColliderSize.x,l_newSize, m_MaxColliderSize.z);
-
-        m_MyTrigger.center = new Vector3(m_TriggerCenter.x, -((-m_MaxColliderSize.y / 2f) + l_newSize), m_TriggerCenter.z + m_TriggerOffset);
-       
-        
         for (int i = 0; i < m_GrowMaterials.Count; i++)
         {
             m_GrowMaterials[i].SetFloat("Grow_",amount);
         }
-
-        m_Grown = amount >= 1;
     }
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Player")
-        {
-            other.transform.SetParent(transform);
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            other.transform.SetParent(null);
-        }
-    }
-
-
 }
