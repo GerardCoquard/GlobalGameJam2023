@@ -1965,6 +1965,11 @@ PrefabInstance:
       propertyPath: m_GrowthSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3886199672114554216, guid: c9fea1e508e478948b46f57e261e1d7b,
+        type: 3}
+      propertyPath: m_CollisionLayer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3886199672114554217, guid: c9fea1e508e478948b46f57e261e1d7b,
         type: 3}
       propertyPath: m_RootOrder
@@ -2103,6 +2108,11 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 20101556}
+    - target: {fileID: 4928685062507849261, guid: f2d545b9a245c5e46ad9a7ff47119b02,
+        type: 3}
+      propertyPath: interactPlantLayerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
