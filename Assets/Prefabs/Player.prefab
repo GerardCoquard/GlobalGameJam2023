@@ -307,7 +307,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 10
-  controller: {fileID: 4928685062507849263}
   speed: 5
   speedMultiplier: 1
   jumpSpeed: 5
@@ -350,8 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74d02ce2880d404db30ecd6f9e30828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  distance: 20
+  distance: 50
   cam: {fileID: 4928685061363586217}
   interactPlantLayerMask:
     serializedVersion: 2
@@ -360,8 +358,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 704
   scenePointer: {fileID: 7467069761978806638}
-  defaultCursor: {fileID: 21300000, guid: 831de0b9cbb110d488b304616c55dc8a, type: 3}
-  canPlantCursor: {fileID: 21300000, guid: 6d436c9d2a638624f888514842325e0c, type: 3}
+  defaultCursor: {fileID: 21300000, guid: 6d436c9d2a638624f888514842325e0c, type: 3}
+  plantCursor: {fileID: 21300000, guid: 831de0b9cbb110d488b304616c55dc8a, type: 3}
 --- !u!54 &4928685062507849260
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -455,7 +453,7 @@ PrefabInstance:
     - target: {fileID: 2778071278569031471, guid: c4a2395c2b51b4e469b4834071cc1828,
         type: 3}
       propertyPath: m_Name
-      value: Pointer
+      value: RootLocation
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

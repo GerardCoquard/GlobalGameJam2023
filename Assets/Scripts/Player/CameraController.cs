@@ -5,15 +5,15 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform pitchController;
-    public float m_YawRotationSpeed;
-    public float m_PitchRotationSpeed;
+    [SerializeField] Transform pitchController;
+    [SerializeField] float m_YawRotationSpeed;
+    [SerializeField] float m_PitchRotationSpeed;
 
-    public float m_MinPitch;
-    public float m_MaxPitch;
+    [SerializeField] float m_MinPitch;
+    [SerializeField] float m_MaxPitch;
     
-    public bool yawInverted;
-    public bool pitchInverted;
+    [SerializeField] bool yawInverted;
+    [SerializeField] bool pitchInverted;
     float m_Yaw;
     float m_Pitch;
     private void OnEnable() {
