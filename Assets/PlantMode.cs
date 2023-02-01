@@ -7,23 +7,25 @@ public class PlantMode : MonoBehaviour
 {
     public RootController controller;
     public float distance;
-    public LayerMask layerMask;
     public Transform cam;
-    bool growing;
 
     public float interactPlantDistance;
     public LayerMask interactPlantLayerMask;
     public LayerMask pointerLayerMask;
     public GameObject pointerPrefab;
 
-    public Material currentPointerMaterial;
-
     private bool planting;
-    private void Update() {
-        if(InputManager.GetAction("Fire").WasPressedThisFrame())Grow();
-        if(InputManager.GetAction("Fire").WasReleasedThisFrame())StopGrow();
-        if(InputManager.GetAction("Aim").WasPressedThisFrame())Reset();
+    private void Update()
+    {
+
         if (InputManager.GetAction("Interact").WasPressedThisFrame()) CheckIfControllerChanged();
+
+        if (controller == null) return;
+
+        if (InputManager.GetAction("Fire").WasPressedThisFrame()) Grow();
+        if (InputManager.GetAction("Fire").WasReleasedThisFrame()) StopGrow();
+        if (InputManager.GetAction("Aim").WasPressedThisFrame()) Decrease();
+        if (InputManager.GetAction("Aim").WasReleasedThisFrame()) StopDecrease();
 
         if (planting)
         {
@@ -33,24 +35,28 @@ public class PlantMode : MonoBehaviour
     void Grow()
     {
         RaycastHit hit;
-        
-        if(Physics.Raycast(cam.transform.position,cam.transform.forward,out hit, Mathf.Infinity,layerMask)) controller.StrartGrowing(hit.point);
-        
+
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, pointerLayerMask)) controller.StrartGrowing(hit.point);
+
     }
 
     void StopGrow()
     {
         controller.StopGrow();
     }
-    void Reset()
+    void Decrease()
     {
-        controller.Reset();
+        controller.StartDecreasing();
+    }
+    void StopDecrease()
+    {
+        controller.StopDecreasing();
     }
 
     void UpdatePointerState()
     {
         RaycastHit hit;
-        if(InputManager.GetAction("Fire").WasPressedThisFrame()) pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.white;
+        if (InputManager.GetAction("Fire").WasPressedThisFrame()) pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.white;
         if (InputManager.GetAction("Fire").WasReleasedThisFrame())
         {
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, pointerLayerMask))
@@ -64,24 +70,25 @@ public class PlantMode : MonoBehaviour
                 else pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.red;
             }
         }
-       
+
 
     }
     void CheckIfControllerChanged()
     {
-        Ray ray = new Ray(cam.transform.position,cam.transform.forward);
+        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, interactPlantDistance, interactPlantLayerMask))
+        if (Physics.Raycast(ray, out hit, interactPlantDistance, interactPlantLayerMask))
         {
-            SetNewController(hit.collider.gameObject.GetComponentInParent<RootController>());
+            controller = hit.collider.gameObject.GetComponentInParent<RootController>();
             planting = true;
             pointerPrefab.SetActive(true);
         }
-    }
-
-    void SetNewController(RootController newController)
-    {
-        controller = newController;
+        else
+        {
+            controller = null;
+            planting = false;
+            pointerPrefab.SetActive(false);
+        }
     }
 }
