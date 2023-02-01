@@ -5,31 +5,24 @@ using UnityEngine.InputSystem;
 
 public class PlantMode : MonoBehaviour
 {
-    public RootController controller;
+    RootController controller;
     public float distance;
     public LayerMask layerMask;
     public Transform cam;
-    bool growing;
-
     public float interactPlantDistance;
     public LayerMask interactPlantLayerMask;
 
     public GameObject pointerPrefab;
     GameObject currentPointer;
-
-    public Material currentPointerMaterial;
-
-    private bool planting;
-    private void Update() {
-        if(InputManager.GetAction("Fire").WasPressedThisFrame())Grow();
-        if(InputManager.GetAction("Fire").WasReleasedThisFrame())StopGrow();
-        if(InputManager.GetAction("Aim").WasPressedThisFrame())Reset();
+    private void LateUpdate() {
         if (InputManager.GetAction("Interact").WasPressedThisFrame()) CheckIfControllerChanged();
 
-        if (planting)
-        {
+        if(controller == null) return;
 
-        }
+        if(InputManager.GetAction("Fire").WasPressedThisFrame())Grow();
+        if(InputManager.GetAction("Fire").WasReleasedThisFrame())StopGrow();
+        if(InputManager.GetAction("Aim").WasPressedThisFrame())Decrease();
+        if(InputManager.GetAction("Aim").WasReleasedThisFrame())StopDecrease();
     }
     void Grow()
     {
@@ -51,9 +44,15 @@ public class PlantMode : MonoBehaviour
     {
         controller.StopGrow();
     }
-    void Reset()
+    void Decrease()
     {
-        controller.Reset();
+        controller.StartDecreasing();
+        //controller.Reset();
+    }
+    void StopDecrease()
+    {
+        controller.StopDecreasing();
+        //controller.Reset();
     }
 
     void UpdatePointerState()
@@ -70,7 +69,6 @@ public class PlantMode : MonoBehaviour
         if(Physics.Raycast(ray, out hit, interactPlantDistance, interactPlantLayerMask))
         {
             SetNewController(hit.collider.gameObject.GetComponentInParent<RootController>());
-            planting = true;
         }
     }
 

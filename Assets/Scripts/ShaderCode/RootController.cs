@@ -16,9 +16,10 @@ public class RootController : MonoBehaviour
 
     public GameObject m_RootPrefab;
     public GameObject m_NodePrefab;
+    public GameObject m_FirstNodePrefab;
     public float m_RootLength;
-    bool m_Growing;
-    bool doingSomething;
+    bool growing;
+    bool decreasing;
     
 
     List<RootGrowController> m_CurrentRoots = new List<RootGrowController>();
@@ -27,8 +28,8 @@ public class RootController : MonoBehaviour
     Vector3 m_NextPosition;
     public void StopGrow()
     {
-        if (!m_Growing) return;
-        doingSomething = false;
+        if(!growing) return;
+        growing = false;
         Vector3 l_DirectioNode = (Mathf.CeilToInt(m_Distance / m_RootLength) - (m_Distance / m_RootLength)) * m_RootLength * m_GrowthDirection ;
         Vector3 l_NodePosition = m_NextPosition - l_DirectioNode;
         GameObject l_node = Instantiate(m_NodePrefab, l_NodePosition, Quaternion.identity);
@@ -36,7 +37,6 @@ public class RootController : MonoBehaviour
 
         m_TotalDistance += m_Distance;
         m_CurrentRoots = new List<RootGrowController>();
-        m_Growing = false;
         m_Distance = 0;
         StopAllCoroutines();
     }
@@ -45,8 +45,8 @@ public class RootController : MonoBehaviour
         StopAllCoroutines();
         m_Distance = 0;
         m_TotalDistance = 0;
-        m_Growing = false;
-        doingSomething = false;
+        growing = false;
+        decreasing = false;
         m_CurrentRoots = new List<RootGrowController>();
         m_TotalRoots = new List<RootGrowController>();
 
@@ -55,7 +55,7 @@ public class RootController : MonoBehaviour
             Destroy(transform.GetChild(i).gameObject);
         }
 
-        GameObject l_node = Instantiate(m_NodePrefab, transform.position, Quaternion.identity);//poner nodo inicial personalizao si eso
+        GameObject l_node = Instantiate(m_FirstNodePrefab, transform.position, Quaternion.identity);
         l_node.transform.SetParent(transform);
     }
     
@@ -67,20 +67,6 @@ public class RootController : MonoBehaviour
     }
     void SetRootsFills()
     {
-
-        /*for (int i = 1; i <= m_CurrentRoots.Count; i++)
-        {
-            if (m_CurrentRoots[i - 1].IsCompleted()) continue;
-            if (i * m_RootLength < m_Distance)
-            {
-                m_CurrentRoots[i - 1].SetGrowValue(1);
-            }
-            else
-            {
-                float currentAmount = (m_RootLength - (i * m_RootLength - m_Distance)) / m_RootLength;
-                m_CurrentRoots[i - 1].SetGrowValue(currentAmount);
-            }
-        }*/
         float currentAmount = (m_RootLength - (m_CurrentRoots.Count * m_RootLength - m_Distance)) / m_RootLength;
         m_CurrentRoots[m_CurrentRoots.Count-1].SetGrowValue(currentAmount);
     }
@@ -91,21 +77,26 @@ public class RootController : MonoBehaviour
     }
     public void StrartGrowing(Vector3 target)
     {
+        if(growing || decreasing) return;
         if (CheckMaxDistance()) StartCoroutine(Grow(target));
     }
     public void StartDecreasing()
     {
-        if(m_TotalRoots.Count != 0) StartCoroutine(Decrease());
+        if(growing || decreasing) return;
+        if(m_TotalDistance > 0) StartCoroutine(Decrease());
     }
     public void StopDecreasing()
     {
-        
+        if(!decreasing) return;
+        decreasing = false;
+        Transform lastNode = transform.GetChild(transform.childCount-1);
+        SetLastNode(lastNode);
+        StopAllCoroutines();
     }
 
     IEnumerator Grow(Vector3 target)
     {
-        doingSomething = true;
-        m_Growing = true;
+        growing = true;
         Vector3 l_InitialPosition = transform.GetChild(transform.childCount - 1).position;
         m_GrowthDirection = target - l_InitialPosition;
         m_GrowthDirection.Normalize();
@@ -126,22 +117,22 @@ public class RootController : MonoBehaviour
     }
     IEnumerator Decrease()
     {
-        doingSomething = true;
+        decreasing = true;
         Transform lastNode = transform.GetChild(transform.childCount-1);
-        while (transform.childCount > 1)
+        while (m_TotalDistance > 0)
         {
             m_TotalDistance -= m_GrowthSpeed * Time.deltaTime;
             m_TotalDistance = Mathf.Clamp(m_TotalDistance,0,m_MaxDistance);
             DecreaseRootAmount();
-            if(transform.childCount > 1)
+            if(m_TotalRoots.Count > 0)
             {
                 SetDecreaseFills();
                 SetLastNode(lastNode);
             }
             yield return null;
         }
-        lastNode.transform.position = transform.position;
-        doingSomething = false;
+        DestroyImmediate(lastNode.gameObject);
+        decreasing = false;
     }
     void SetLastNode(Transform node)
     {
@@ -185,8 +176,9 @@ public class RootController : MonoBehaviour
     }
     void RemoveRoots()
     {
-        m_TotalRoots.Remove(m_TotalRoots[m_TotalRoots.Count-1]);
-        //if(transform.GetChild(transform.childCount-1) == //nodo)
-        DestroyImmediate(m_TotalRoots[m_TotalRoots.Count-1].gameObject);
+        RootGrowController rootToRemove = m_TotalRoots[m_TotalRoots.Count-1];
+        m_TotalRoots.Remove(rootToRemove);
+        DestroyImmediate(rootToRemove.gameObject);
+        if(transform.GetChild(transform.childCount-2).tag == "Node") DestroyImmediate(transform.GetChild(transform.childCount-2).gameObject);
     }
 }
