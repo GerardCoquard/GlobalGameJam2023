@@ -50,7 +50,7 @@ MonoBehaviour:
   m_TotalDistance: 0
   m_GrowthSpeed: 5
   m_CollisionOffset: 0.5
-  m_CollisionLayer:
+  m_CollisionDetectionLayers:
     serializedVersion: 2
     m_Bits: 64
   m_RootPrefab: {fileID: 6005953819550278656, guid: ecad7f4c2bf98aa4181f78490ac36e6e,

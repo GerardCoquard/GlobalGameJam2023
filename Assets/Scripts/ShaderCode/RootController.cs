@@ -12,14 +12,14 @@ public class RootController : MonoBehaviour
     Vector3 m_GrowthDirection;
 
     public float m_CollisionOffset = 0.5f;
-    public LayerMask m_CollisionLayer;
+    public LayerMask m_CollisionDetectionLayers;
 
     public GameObject m_RootPrefab;
     public GameObject m_NodePrefab;
     public GameObject m_FirstNodePrefab;
     public float m_RootLength;
-    bool growing;
-    bool decreasing;
+    public bool growing;
+    public bool decreasing;
     
 
     List<RootGrowController> m_CurrentRoots = new List<RootGrowController>();
@@ -58,7 +58,10 @@ public class RootController : MonoBehaviour
         GameObject l_node = Instantiate(m_FirstNodePrefab, transform.position, Quaternion.identity);
         l_node.transform.SetParent(transform);
     }
-    
+    public bool FullyGrown()
+    {
+        return m_TotalDistance >= m_MaxDistance;
+    }
     void SetRootsAmount()
     {
         int newSegments = Mathf.CeilToInt(m_Distance / m_RootLength);
@@ -156,7 +159,7 @@ public class RootController : MonoBehaviour
     }
     public bool CheckCollision(Vector3 initialPosition)
     {
-        if(Physics.Raycast(initialPosition,m_GrowthDirection,m_Distance + m_CollisionOffset, m_CollisionLayer))
+        if(Physics.Raycast(initialPosition,m_GrowthDirection,m_Distance + m_CollisionOffset, m_CollisionDetectionLayers))
         {
             return false;
         }
