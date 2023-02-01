@@ -73,10 +73,17 @@ public class RootController : MonoBehaviour
         float currentAmount = (m_RootLength - (m_CurrentRoots.Count * m_RootLength - m_Distance)) / m_RootLength;
         m_CurrentRoots[m_CurrentRoots.Count-1].SetGrowValue(currentAmount);
     }
-    void SetDecreaseFills()
+    void SetDecreaseFills(float decreaseAmount)
     {
-        float currentAmount = (m_RootLength - (m_TotalRoots.Count * m_RootLength - m_TotalDistance)) / m_RootLength;
-        m_TotalRoots[m_TotalRoots.Count-1].SetGrowValue(currentAmount);
+        if(m_TotalRoots.Count < 1) return;
+        float lastRootAmount = m_TotalRoots[m_TotalRoots.Count-1].GrowAmount();
+        if( lastRootAmount < decreaseAmount)
+        {
+            RemoveRoot();
+            SetDecreaseFills(decreaseAmount-lastRootAmount);
+            return;
+        }
+        m_TotalRoots[m_TotalRoots.Count-1].SetGrowValue(lastRootAmount-decreaseAmount);
     }
     public void StrartGrowing(Vector3 target)
     {
@@ -124,14 +131,11 @@ public class RootController : MonoBehaviour
         Transform lastNode = transform.GetChild(transform.childCount-1);
         while (m_TotalDistance > 0)
         {
-            m_TotalDistance -= m_GrowthSpeed * Time.deltaTime;
+            float distanceLost = m_GrowthSpeed * Time.deltaTime;
+            m_TotalDistance -= distanceLost;
             m_TotalDistance = Mathf.Clamp(m_TotalDistance,0,m_MaxDistance);
-            DecreaseRootAmount();
-            if(m_TotalRoots.Count > 0)
-            {
-                SetDecreaseFills();
-                SetLastNode(lastNode);
-            }
+            SetDecreaseFills(distanceLost/m_RootLength);
+            if(m_TotalRoots.Count > 0) SetLastNode(lastNode);
             yield return null;
         }
         DestroyImmediate(lastNode.gameObject);
@@ -139,20 +143,12 @@ public class RootController : MonoBehaviour
     }
     void SetLastNode(Transform node)
     {
-        Vector3 lastRootPos = m_TotalRoots[m_TotalRoots.Count-1].transform.position;
-        float currentAmount = m_RootLength - (m_TotalRoots.Count * m_RootLength - m_TotalDistance);
-        Vector3 desiredDir = m_TotalRoots[m_TotalRoots.Count-1].transform.forward * currentAmount;
-        Vector3 desiredPosition = lastRootPos + desiredDir;
+        RootGrowController lastRoot = m_TotalRoots[m_TotalRoots.Count-1];
+        Vector3 desiredDir = lastRoot.transform.forward * lastRoot.GrowAmount() * m_RootLength;
+        Vector3 desiredPosition = lastRoot.transform.position + desiredDir;
 
         node.transform.position = desiredPosition;
     }
-    void DecreaseRootAmount()
-    {
-        int newSegments = Mathf.CeilToInt(m_TotalDistance / m_RootLength);
-        int neededSegments = newSegments - m_TotalRoots.Count;
-        if (neededSegments != 0) RemoveRoots();
-    }
-
     public bool CheckMaxDistance()
     {
         return m_TotalDistance + m_Distance < m_MaxDistance;
@@ -177,7 +173,7 @@ public class RootController : MonoBehaviour
         m_TotalRoots.Add(l_Root.GetComponent<RootGrowController>());
         m_NextPosition = l_Root.transform.position + (m_GrowthDirection * m_RootLength);
     }
-    void RemoveRoots()
+    void RemoveRoot()
     {
         RootGrowController rootToRemove = m_TotalRoots[m_TotalRoots.Count-1];
         m_TotalRoots.Remove(rootToRemove);

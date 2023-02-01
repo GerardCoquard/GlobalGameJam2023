@@ -52,7 +52,7 @@ MonoBehaviour:
   m_CollisionOffset: 0.5
   m_CollisionDetectionLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   m_RootPrefab: {fileID: 6005953819550278656, guid: ecad7f4c2bf98aa4181f78490ac36e6e,
     type: 3}
   m_NodePrefab: {fileID: 8990452323522538346, guid: 1eafc2c75fb2930408c366bee94e7e0b,
@@ -60,6 +60,8 @@ MonoBehaviour:
   m_FirstNodePrefab: {fileID: 5576251561526502961, guid: 0f98e0934a6b03f488b3c066ffe753d8,
     type: 3}
   m_RootLength: 2.922411
+  growing: 0
+  decreasing: 0
 --- !u!1001 &7828478749406746989
 PrefabInstance:
   m_ObjectHideFlags: 0
