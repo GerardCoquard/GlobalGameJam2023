@@ -45,7 +45,7 @@ public class PlantMode : MonoBehaviour
         if (InputManager.GetAction("Fire").WasReleasedThisFrame()) StopGrow();
 
         currentCursor = UpdatePointerState();
-
+        if(!controller.growing) scenePointer.DespawnPointer();
         fillRoot.CalculateFillInPercent(controller.m_Distance + controller.m_TotalDistance, controller.m_MaxDistance);
     }
     void Grow()

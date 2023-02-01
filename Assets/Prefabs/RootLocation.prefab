@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2778071278569031467}
   - component: {fileID: 1591593983100622707}
   m_Layer: 5
-  m_Name: SceneRootPointer
+  m_Name: RootLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Children:
   - {fileID: 8211802662088437741}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1591593983100622707
 MonoBehaviour:
@@ -63,7 +63,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8211802662088437741
 Transform:
   m_ObjectHideFlags: 0
