@@ -15,6 +15,8 @@ public class PlantMode : MonoBehaviour
     public GameObject pointerPrefab;
 
     private bool planting;
+    private bool growing;
+    private bool shouldGrow;
     private void Update()
     {
 
@@ -22,15 +24,13 @@ public class PlantMode : MonoBehaviour
 
         if (controller == null) return;
 
-        if (InputManager.GetAction("Fire").WasPressedThisFrame()) Grow();
+        if (InputManager.GetAction("Fire").WasPressedThisFrame() && shouldGrow) Grow();
         if (InputManager.GetAction("Fire").WasReleasedThisFrame()) StopGrow();
         if (InputManager.GetAction("Aim").WasPressedThisFrame()) Decrease();
         if (InputManager.GetAction("Aim").WasReleasedThisFrame()) StopDecrease();
 
-        if (planting)
-        {
-            UpdatePointerState();
-        }
+
+        if (planting) UpdatePointerState();
     }
     void Grow()
     {
@@ -56,18 +56,30 @@ public class PlantMode : MonoBehaviour
     void UpdatePointerState()
     {
         RaycastHit hit;
-        if (InputManager.GetAction("Fire").WasPressedThisFrame()) pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.white;
-        if (InputManager.GetAction("Fire").WasReleasedThisFrame())
+        if (InputManager.GetAction("Fire").WasPerformedThisFrame())
         {
-            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, pointerLayerMask))
-            {
-                if (hit.collider != null)
-                {
-                    pointerPrefab.transform.position = hit.point;
-                }
+            pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.white;
+            growing = true;
 
-                if (hit.collider.tag == "Ground") pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.green;
-                else pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.red;
+        }
+        if (InputManager.GetAction("Fire").WasReleasedThisFrame()) growing = false;
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, pointerLayerMask) && !growing)
+        {
+            if (hit.collider != null)
+            {
+                pointerPrefab.transform.position = hit.point;
+            }
+
+            if (hit.collider.tag == "Ground")
+            {
+                pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.green;
+                shouldGrow = true;
+            }
+
+            else
+            {
+                pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.red;
+                shouldGrow = false;
             }
         }
 
