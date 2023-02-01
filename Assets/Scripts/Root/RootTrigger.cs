@@ -6,16 +6,16 @@ public class RootTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.tag == "")
         {
-            other.transform.SetParent(transform);
+            //DoThing
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "")
         {
-            other.transform.SetParent(null);
+            //DoThing
         }
     }
 }

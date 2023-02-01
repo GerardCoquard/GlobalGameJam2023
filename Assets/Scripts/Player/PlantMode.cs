@@ -1,21 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class PlantMode : MonoBehaviour
 {
-    public RootController controller;
-    public float distance;
-    public Transform cam;
-    public LayerMask interactPlantLayerMask;
-    public LayerMask pointerLayerMask;
-    public RootDesiredPoint scenePointer;
-    public Sprite defaultCursor;
-    public Sprite canPlantCursor;
+    [SerializeField] float distance;
+    [SerializeField] Transform cam;
+    [SerializeField] LayerMask interactPlantLayerMask;
+    [SerializeField] LayerMask pointerLayerMask;
+    [SerializeField] RootDesiredPoint scenePointer;
+    [SerializeField] Sprite defaultCursor;
+    [SerializeField] Sprite plantCursor;
+
     public delegate void CursorChanged(Sprite image);
     public static event CursorChanged OnCursorChanged;
+    RootController controller;
     Sprite currentCursor;
     RootSlider fillRoot;
 
@@ -45,17 +44,15 @@ public class PlantMode : MonoBehaviour
         if (InputManager.GetAction("Fire").WasReleasedThisFrame()) StopGrow();
 
         currentCursor = UpdatePointerState();
-        if(!controller.growing) scenePointer.DespawnPointer();
-        fillRoot.CalculateFillInPercent(controller.m_Distance + controller.m_TotalDistance, controller.m_MaxDistance);
+        if(!controller.GetGrowing()) scenePointer.DespawnPointer();
+        fillRoot.CalculateFillInPercent(controller.GetCurrentDistance() + controller.GetDistance(), controller.GetMaxDistance());
     }
     void Grow()
     {
-        
-        Debug.Log(controller.m_TotalDistance);
         RaycastHit hit;
         if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance, pointerLayerMask))
         {
-            if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground") && !controller.growing && !controller.decreasing)
+            if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground") && !controller.GetGrowing() && !controller.GetDecreasing())
             {
                 controller.StrartGrowing(hit.point);
                 scenePointer.SpawnPointer(hit.point);
@@ -65,7 +62,7 @@ public class PlantMode : MonoBehaviour
 
     void StopGrow()
     {
-        if(controller.growing)
+        if(controller.GetGrowing())
         {
             controller.StopGrow();
             scenePointer.DespawnPointer();
@@ -79,14 +76,9 @@ public class PlantMode : MonoBehaviour
     {
         controller.StopDecreasing();
     }
-    Sprite SetCursor(Sprite cursor)
-    {
-        if(cursor!=currentCursor) OnCursorChanged?.Invoke(cursor);
-        return cursor;
-    }
     Sprite UpdatePointerState()
     {
-        if(controller.growing || controller.decreasing)
+        if(controller.GetGrowing() || controller.GetDecreasing())
         {
             return SetCursor(defaultCursor);
         }
@@ -96,7 +88,7 @@ public class PlantMode : MonoBehaviour
             Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance, pointerLayerMask);
             if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance, pointerLayerMask))
             {
-                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground")) return SetCursor(canPlantCursor);
+                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground")) return SetCursor(plantCursor);
                 else return SetCursor(defaultCursor);
             }
             else
@@ -133,6 +125,11 @@ public class PlantMode : MonoBehaviour
             }
             controller = null;
         }
+    }
+    Sprite SetCursor(Sprite cursor)
+    {
+        if(cursor!=currentCursor) OnCursorChanged?.Invoke(cursor);
+        return cursor;
     }
 }
 

@@ -6,27 +6,19 @@ public class RootGrowController : MonoBehaviour
 {
     public BoxCollider m_MyCollider;
     public BoxCollider m_MyTrigger;
-
-    private Vector3 m_ColliderCenter;
-    private Vector3 m_MaxColliderSize;
-    bool m_Grown;
+    Vector3 m_ColliderCenter;
+    Vector3 m_MaxColliderSize;
     float growAmount;
-
-
-    private Vector3 m_TriggerCenter;
+    Vector3 m_TriggerCenter;
     public List<GrowShaderCode> roots = new List<GrowShaderCode>();
 
     void Awake()
     {
         m_MaxColliderSize = m_MyCollider.size;
         m_ColliderCenter = m_MyCollider.center;
-
         m_TriggerCenter = m_MyTrigger.center;
     }
-    public float GrowAmount()
-    {
-        return growAmount;
-    }
+    
     public void SetGrowValue(float amount)
     {
         float l_newSize = amount * m_MaxColliderSize.y;
@@ -41,6 +33,9 @@ public class RootGrowController : MonoBehaviour
             item.SetGrowValue(amount);
         }
         growAmount = amount;
-        m_Grown = amount >= 1;
+    }
+    public float GetGrowAmount()
+    {
+        return growAmount;
     }
 }

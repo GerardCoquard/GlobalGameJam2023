@@ -5,15 +5,19 @@ using UnityEngine.InputSystem;
 
 public class MovementController : MonoBehaviour
 {
-    public float gravity;
-    public CharacterController controller;
-    public float speed;
-    public float speedMultiplier = 1.5f;
-    bool onGround = true;
-    public float jumpSpeed = 10.0f;
-    private float timeOnAir;
-    public float coyoteTime = 0.0f;
+    [SerializeField] float gravity;
+    [SerializeField] float speed;
+    [SerializeField] float speedMultiplier = 1.5f;
+    [SerializeField] float jumpSpeed = 10.0f;
+    [SerializeField] float coyoteTime = 0.0f;
+    CharacterController controller;
     Vector3 velocity;
+    bool onGround = true;
+    float timeOnAir;
+    
+    private void Start() {
+        controller = GetComponent<CharacterController>();
+    }
     private void Update() {
         SetGravity();
         Move();
@@ -40,8 +44,6 @@ public class MovementController : MonoBehaviour
             velocity.y = jumpSpeed;
         }
     }
-    
-
     void CheckCollision(CollisionFlags collisionFlag)
     {
         if ((collisionFlag & CollisionFlags.Above) != 0 && velocity.y > 0.0f)
@@ -59,7 +61,7 @@ public class MovementController : MonoBehaviour
         {
             timeOnAir += Time.deltaTime;
             if (timeOnAir > coyoteTime)
-                onGround = false;
+            onGround = false;
         }
     }
 }

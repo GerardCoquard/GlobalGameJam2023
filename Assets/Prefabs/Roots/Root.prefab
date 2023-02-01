@@ -543,7 +543,7 @@ GameObject:
   - component: {fileID: 2467313634689051710}
   - component: {fileID: 628637974497703497}
   - component: {fileID: 4351612724187079248}
-  - component: {fileID: 3629327878318508222}
+  - component: {fileID: 5474402014483119689}
   m_Layer: 7
   m_Name: Colliders
   m_TagString: Untagged
@@ -608,7 +608,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8, y: 4, z: 0.8}
   m_Center: {x: 0, y: -2.9158692, z: 0}
---- !u!114 &3629327878318508222
+--- !u!114 &5474402014483119689
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
