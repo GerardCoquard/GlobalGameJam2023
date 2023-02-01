@@ -17,12 +17,13 @@ public class PlantMode : MonoBehaviour
     public delegate void CursorChanged(Sprite image);
     public static event CursorChanged OnCursorChanged;
     Sprite currentCursor;
-    public Image fillRoot;
+    RootSlider fillRoot;
 
     private void Start() {
         currentCursor = SetCursor(defaultCursor);
         scenePointer.transform.SetParent(null);
         scenePointer.DespawnPointer();
+        fillRoot = FindObjectOfType<RootSlider>();
     }
     private void Update()
     {
@@ -45,7 +46,7 @@ public class PlantMode : MonoBehaviour
 
         currentCursor = UpdatePointerState();
 
-        fillRoot.fillAmount = (controller.m_Distance + controller.m_TotalDistance) / controller.m_MaxDistance;
+        fillRoot.CalculateFillInPercent(controller.m_Distance + controller.m_TotalDistance, controller.m_MaxDistance);
     }
     void Grow()
     {
@@ -112,7 +113,7 @@ public class PlantMode : MonoBehaviour
         if (Physics.Raycast(ray, out hit, distance, interactPlantLayerMask))
         {
             RootController newController = hit.transform.GetComponentInParent<RootController>();
-            if(fillRoot.gameObject.activeSelf) { fillRoot.gameObject.SetActive(false); } else { fillRoot.gameObject.SetActive(true); }
+            fillRoot.ChangeState();
             if(newController != controller && controller != null)
             {
                 controller.StopGrow();
