@@ -13,9 +13,8 @@ public class PlantMode : MonoBehaviour
 
     public float interactPlantDistance;
     public LayerMask interactPlantLayerMask;
-
+    public LayerMask pointerLayerMask;
     public GameObject pointerPrefab;
-    GameObject currentPointer;
 
     public Material currentPointerMaterial;
 
@@ -28,7 +27,7 @@ public class PlantMode : MonoBehaviour
 
         if (planting)
         {
-
+            UpdatePointerState();
         }
     }
     void Grow()
@@ -37,16 +36,8 @@ public class PlantMode : MonoBehaviour
         
         if(Physics.Raycast(cam.transform.position,cam.transform.forward,out hit, Mathf.Infinity,layerMask)) controller.StrartGrowing(hit.point);
         
-        if(currentPointer != null)
-        {
-            Destroy(currentPointer.gameObject);
-            currentPointer = null;
-        }
-        GameObject pointer = Instantiate(pointerPrefab, hit.point, Quaternion.identity);
-        currentPointer = pointer;
-
-        
     }
+
     void StopGrow()
     {
         controller.StopGrow();
@@ -59,8 +50,22 @@ public class PlantMode : MonoBehaviour
     void UpdatePointerState()
     {
         RaycastHit hit;
+        if(InputManager.GetAction("Fire").WasPressedThisFrame()) pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.white;
+        if (InputManager.GetAction("Fire").WasReleasedThisFrame())
+        {
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, pointerLayerMask))
+            {
+                if (hit.collider != null)
+                {
+                    pointerPrefab.transform.position = hit.point;
+                }
 
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, layerMask)) controller.StrartGrowing(hit.point);
+                if (hit.collider.tag == "Ground") pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.green;
+                else pointerPrefab.GetComponent<MeshRenderer>().material.color = Color.red;
+            }
+        }
+       
+
     }
     void CheckIfControllerChanged()
     {
@@ -71,6 +76,7 @@ public class PlantMode : MonoBehaviour
         {
             SetNewController(hit.collider.gameObject.GetComponentInParent<RootController>());
             planting = true;
+            pointerPrefab.SetActive(true);
         }
     }
 
