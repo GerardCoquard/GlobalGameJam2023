@@ -152,7 +152,7 @@ public class RootController : MonoBehaviour
     }
     public float GetDistance()
     {
-        return m_Distance;
+        return m_TotalDistance;
     }
     public float GetMaxDistance()
     {
