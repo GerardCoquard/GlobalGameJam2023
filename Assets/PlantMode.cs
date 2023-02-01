@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlantMode : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class PlantMode : MonoBehaviour
     public delegate void CursorChanged(Sprite image);
     public static event CursorChanged OnCursorChanged;
     Sprite currentCursor;
+    public Image fillRoot;
+
     private void Start() {
         currentCursor = SetCursor(defaultCursor);
         scenePointer.transform.SetParent(null);
@@ -41,9 +44,13 @@ public class PlantMode : MonoBehaviour
         if (InputManager.GetAction("Fire").WasReleasedThisFrame()) StopGrow();
 
         currentCursor = UpdatePointerState();
+
+        fillRoot.fillAmount = (controller.m_Distance + controller.m_TotalDistance) / controller.m_MaxDistance;
     }
     void Grow()
     {
+        
+        Debug.Log(controller.m_TotalDistance);
         RaycastHit hit;
         if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance, pointerLayerMask))
         {
@@ -105,6 +112,7 @@ public class PlantMode : MonoBehaviour
         if (Physics.Raycast(ray, out hit, distance, interactPlantLayerMask))
         {
             RootController newController = hit.transform.GetComponentInParent<RootController>();
+            if(fillRoot.gameObject.activeSelf) { fillRoot.gameObject.SetActive(false); } else { fillRoot.gameObject.SetActive(true); }
             if(newController != controller && controller != null)
             {
                 controller.StopGrow();
@@ -125,3 +133,5 @@ public class PlantMode : MonoBehaviour
         }
     }
 }
+
+
