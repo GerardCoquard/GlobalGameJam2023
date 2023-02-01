@@ -9,9 +9,10 @@ public class RootSlider : MonoBehaviour
     {
         sliderGraphics.SetActive(false);
     }
-    public void ChangeState()
+    public void ChangeState(bool state)
     {
-        if(sliderGraphics.activeSelf) sliderGraphics.SetActive(false); else { sliderGraphics.SetActive(true); }
+        sliderGraphics.SetActive(state);
+
     }
 
     public void CalculateFillInPercent(float value1, float value2)

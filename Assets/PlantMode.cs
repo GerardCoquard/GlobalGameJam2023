@@ -113,7 +113,7 @@ public class PlantMode : MonoBehaviour
         if (Physics.Raycast(ray, out hit, distance, interactPlantLayerMask))
         {
             RootController newController = hit.transform.GetComponentInParent<RootController>();
-            fillRoot.ChangeState();
+            fillRoot.ChangeState(true);
             if(newController != controller && controller != null)
             {
                 controller.StopGrow();
@@ -124,7 +124,8 @@ public class PlantMode : MonoBehaviour
         }
         else
         {
-            if(controller != null)
+            fillRoot.ChangeState(false);
+            if (controller != null)
             {
                 controller.StopGrow();
                 controller.StopDecreasing();
