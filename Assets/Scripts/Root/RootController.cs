@@ -46,6 +46,11 @@ public class RootController : MonoBehaviour
             SetGrowFill();
             yield return null;
         }
+        if(m_TotalRoots[m_TotalRoots.Count-1].GetGrowAmount() == 0)
+        {
+            RemoveRoot();
+        }
+
         StopGrow();
     }
     IEnumerator Decrease()
@@ -69,14 +74,19 @@ public class RootController : MonoBehaviour
     {
         if(!growing) return;
         growing = false;
-        Vector3 l_DirectioNode = (Mathf.CeilToInt(m_Distance / m_RootLength) - (m_Distance / m_RootLength)) * m_RootLength * m_GrowthDirection ;
-        Vector3 l_NodePosition = m_NextPosition - l_DirectioNode;
+
+        RootGrowController lastRoot = m_TotalRoots[m_TotalRoots.Count-1];
+        Vector3 l_DirectioNode = lastRoot.GetGrowAmount()*m_RootLength * lastRoot.transform.forward;
+        Vector3 l_NodePosition = lastRoot.transform.position + l_DirectioNode;
         GameObject l_node = Instantiate(m_NodePrefab, l_NodePosition, Quaternion.identity);
         l_node.transform.SetParent(transform);
 
         m_TotalDistance += m_Distance;
         m_CurrentRoots = new List<RootGrowController>();
         m_Distance = 0;
+
+        RemoveDuplicatedNodes();
+
         StopAllCoroutines();
     }
     public void StopDecreasing()
@@ -107,7 +117,17 @@ public class RootController : MonoBehaviour
         RootGrowController rootToRemove = m_TotalRoots[m_TotalRoots.Count-1];
         m_TotalRoots.Remove(rootToRemove);
         DestroyImmediate(rootToRemove.gameObject);
+    }
+    void RemoveLastNode()
+    {
         if(transform.GetChild(transform.childCount-2).tag == "Node") DestroyImmediate(transform.GetChild(transform.childCount-2).gameObject);
+    }
+    void RemoveDuplicatedNodes()
+    {
+        if(transform.childCount < 2) return;
+        GameObject node1 = transform.GetChild(transform.childCount-1).gameObject;
+        GameObject node2 = transform.GetChild(transform.childCount-2).gameObject;
+        if(node1.tag == "Node" && node2.tag == "Node") DestroyImmediate(node1);
     }
     void SetGrowFill()
     {
@@ -121,6 +141,7 @@ public class RootController : MonoBehaviour
         if( lastRootAmount < decreaseAmount)
         {
             RemoveRoot();
+            RemoveLastNode();
             SetDecreaseFill(decreaseAmount-lastRootAmount);
             return;
         }
