@@ -19,11 +19,19 @@ public class Button : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        OnEnterAction();
+        
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("Root"))
+        {
+            OnEnterAction();
+        }
+       
     }
-
+   
     private void OnTriggerExit(Collider other)
     {
-        OnExitAction();
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("Root"))
+        {
+            OnExitAction();
+        }
     }
 }
