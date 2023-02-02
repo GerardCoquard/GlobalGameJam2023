@@ -44,32 +44,34 @@ public class VineBranch {
         return CreateVinePoint(hit.point, hit.normal);
     }
 
-    public void Grow() {
+    public void Grow(int rnd, bool leafs) {
         VinePoint point;
         
         while (points.Count < maxPointCount && (point = FindNewPoint()) != null) {
             points.Add(point);
         }
 
-        CreatePath();
+        CreatePath(rnd, leafs);
     }
 
-    public void CreatePath()
+    public void CreatePath(int rnd, bool leafs)
     {
-        AssignMeshComponents();
+        AssignMeshComponents(rnd);
         AssignMaterials();
         CreateVertexPath();
         CreateRoadMesh();
-        CreateLeaves();
+        CreateLeaves(rnd, leafs);
     }
 
     // This leaves (get it?) a lot to be desired
     //
-    private void CreateLeaves() {
+    private void CreateLeaves(int rnd, bool leafs) {
+
+        if (!leafs) return;
         if (vertexPath == null) {
             return;
         }
-
+        
         float step = tree.LeafAmount;
         for (float i = 0; i < 1 - step; i += step)
         {
@@ -88,7 +90,7 @@ public class VineBranch {
             if (normal.x == double.NaN) continue;
 
             GameObject instance = GameObject.Instantiate(tree.LeafPrefab, point + randomHeightOffset + randomWidthOffset / 2, Quaternion.FromToRotation(Vector3.up, normal));
-
+            instance.transform.SetParent(GameObject.Find("Vine" + rnd).transform);
             if (nextPoint != Vector3.zero) {
                 instance.transform.LookAt(nextPoint + randomHeightOffset + normal * 0.2f + randomWidthOffset, normal);
             }
@@ -162,7 +164,7 @@ public class VineBranch {
             return CreateVinePoint(hit);
         }
 
-        Debug.Log("OOPS");
+      
         return null;
     }
 
@@ -266,7 +268,7 @@ public class VineBranch {
         mesh.RecalculateBounds();
     }
 
-    void AssignMeshComponents()
+    void AssignMeshComponents(int rnd)
     {
 
         if (meshHolder == null)
@@ -277,6 +279,8 @@ public class VineBranch {
         meshHolder.transform.rotation = Quaternion.identity;
         meshHolder.transform.position = Vector3.zero;
         meshHolder.transform.localScale = Vector3.one;
+
+        meshHolder.transform.SetParent(GameObject.Find("Vine" + rnd).transform);
 
         // Ensure mesh renderer and filter components are assigned
         if (!meshHolder.gameObject.GetComponent<MeshFilter>())

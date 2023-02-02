@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
 
-public class VineTree {
+public class VineTree{
     public VinePlanter planter;
 
     public float branchThickness => planter.branchThickness;
@@ -38,9 +38,9 @@ public class VineTree {
         }
     }
 
-    public void Grow() {
+    public void Grow(int rnd, bool leafs) {
         foreach(VineBranch branch in branches) {
-            branch.Grow();
+            branch.Grow(rnd, leafs);
         }
     }
 

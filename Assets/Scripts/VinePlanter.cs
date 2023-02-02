@@ -17,45 +17,38 @@ public class VinePlanter : MonoBehaviour
 
     List<VineTree> trees = new List<VineTree>();
 
-    // Start is called before the first frame update
-    void Start()
+
+
+
+    public void BuildObject()
     {
-        trees = new List<VineTree>();
+
+        StartCoroutine(Photo(true));
     }
 
-    private void Redraw() {
-        for (int i = 0; i < trees.Count; i++)
-        {
-            trees[i].Redraw();
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
+    public void BuildObjectNoLeafs()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Redraw();
-        }
 
-        if (Input.GetMouseButtonDown(0)) {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                VineTree tree = new VineTree(origin: hit.point, normal: hit.normal, planter: this);
-                trees.Add(tree);
-
-                tree.Grow();
-            }
-        }
+        StartCoroutine(Photo(false));
     }
+    IEnumerator Photo(bool leafs)
+    {
+        Ray ray = new Ray(UnityEditor.SceneView.lastActiveSceneView.camera.transform.position, UnityEditor.SceneView.lastActiveSceneView.camera.transform.forward);
 
-    private void OnDrawGizmos() {
-        for (int i = 0; i < trees.Count; i++) {
-            trees[i].DrawGizmos();
+        RaycastHit hit;
+
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+
+            int rnd = Random.Range(0, 5000);
+            GameObject parent = new GameObject("Vine" + rnd);
+            parent.transform.position = hit.point;
+            VineTree tree = new VineTree(origin: hit.point, normal: hit.normal, planter: this);
+            trees.Add(tree);
+
+            tree.Grow(rnd, leafs);
         }
+        yield return null;
     }
 }

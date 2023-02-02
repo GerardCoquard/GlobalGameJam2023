@@ -145,7 +145,7 @@ namespace PathCreation {
                         // float t = i / (num - 1f);
                         // float angle = startAngle + deltaAngle * t;
                         // Quaternion rot = Quaternion.AngleAxis (angle, localTangents[vertIndex]);
-                        Debug.Log($"localNormals[{vertIndex}] = n[{anchorIndex}] == {bezierPath.Normals[anchorIndex]}");
+                        
                         localNormals[vertIndex] = bezierPath.Normals[anchorIndex];
                         // localNormals[vertIndex] = (rot * localNormals[vertIndex]) * ((bezierPath.FlipNormals) ? -1 : 1);
                     }
