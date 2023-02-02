@@ -7,12 +7,13 @@ public class VinePlanter : MonoBehaviour
     public GameObject[] leafPrefabs;
 
     public float leafAmount = 0.06f;
+    public int numberOfBranches = 5;
+    public int maxDistance = 10;
 
     public Material vineTopMat, vineBottomMat;
 
     public float branchThickness = 0.1f;
     public float branchWidth = 0.5f;
-
     public float angleNormal = 0f;
 
     List<VineTree> trees = new List<VineTree>();
@@ -44,10 +45,11 @@ public class VinePlanter : MonoBehaviour
             int rnd = Random.Range(0, 5000);
             GameObject parent = new GameObject("Vine" + rnd);
             parent.transform.position = hit.point;
-            VineTree tree = new VineTree(origin: hit.point, normal: hit.normal, planter: this);
+            parent.transform.SetParent(transform);
+            VineTree tree = new VineTree(origin: hit.point, normal: hit.normal, planter: this,numberOfBranches);
             trees.Add(tree);
 
-            tree.Grow(rnd, leafs);
+            tree.Grow(rnd, leafs, maxDistance);
         }
         yield return null;
     }

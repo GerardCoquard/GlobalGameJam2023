@@ -16,9 +16,7 @@ public class VineTree{
 
     List<VineBranch> branches = new List<VineBranch>();
 
-    int numberOfBranches = 5;
-
-    public VineTree(Vector3 origin, Vector3 normal, VinePlanter planter) {
+    public VineTree(Vector3 origin, Vector3 normal, VinePlanter planter, int numberOfBranches) {
         this.origin = origin;
         this.normal = normal;
 
@@ -38,9 +36,9 @@ public class VineTree{
         }
     }
 
-    public void Grow(int rnd, bool leafs) {
+    public void Grow(int rnd, bool leafs, int maxDistance) {
         foreach(VineBranch branch in branches) {
-            branch.Grow(rnd, leafs);
+            branch.Grow(rnd, leafs,maxDistance);
         }
     }
 

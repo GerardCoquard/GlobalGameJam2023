@@ -14,8 +14,6 @@ public class VinePoint {
 
 public class VineBranch {
     VineTree tree;
-
-    int maxPointCount = 20;
     int maxDirectionTryCount = 40;
     private float rayCastStep = 0.2f;
     List<VinePoint> points = new List<VinePoint>();
@@ -44,10 +42,10 @@ public class VineBranch {
         return CreateVinePoint(hit.point, hit.normal);
     }
 
-    public void Grow(int rnd, bool leafs) {
+    public void Grow(int rnd, bool leafs, int maxDistance) {
         VinePoint point;
         
-        while (points.Count < maxPointCount && (point = FindNewPoint()) != null) {
+        while (points.Count < maxDistance && (point = FindNewPoint()) != null) {
             points.Add(point);
         }
 
