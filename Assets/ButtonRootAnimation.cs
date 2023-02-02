@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
+public class ButtonRootAnimation : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+    public List<Sprite> animationSprites;
+    public float timeBetweenSprites;
+    public Image image;
+    int currentIndex;
+    private void Start() {
+        image.sprite = animationSprites[currentIndex];
+    }
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        if(currentIndex<animationSprites.Count-1) StartCoroutine(GoUpwards());
+    }
+
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        if(currentIndex>0) StartCoroutine(GoDownwards());
+    }
+
+    IEnumerator GoUpwards()
+    {
+        yield return new WaitForSeconds(timeBetweenSprites);
+        currentIndex++;
+        image.sprite = animationSprites[currentIndex];
+        if(currentIndex<animationSprites.Count-1) StartCoroutine(GoUpwards());
+    }
+    IEnumerator GoDownwards()
+    {
+        yield return new WaitForSeconds(timeBetweenSprites);
+        currentIndex--;
+        image.sprite = animationSprites[currentIndex];
+        if(currentIndex>0) StartCoroutine(GoDownwards());
+    }
+}
