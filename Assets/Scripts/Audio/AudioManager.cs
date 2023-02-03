@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Events;
 
 public class AudioManager : MonoBehaviour
 {
@@ -8,36 +11,50 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     public Dictionary<string, AudioClip> m_SoundsDictionary;
     private AudioSource m_MyAudioSource;
+    public AudioSource m_MyMusicSource;
 
     public AudioMixer m_MyAudioMixer;
+
+    MusicPlayer m_MyPlayer;
+
+    public float m_FadeSpeed;
+
+    float multiplier = 30;
+
+    bool m_IsChanging;
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
-        
+
     }
     private void Start()
     {
         FillDictionary();
-        m_MyAudioSource = GetComponent<AudioSource>();
+        m_MyAudioSource = GameObject.Find("AudioSource").GetComponent<AudioSource>();
+        m_MyMusicSource = GameObject.Find("MusicSource").GetComponent<AudioSource>();
+        m_MyPlayer = m_MyMusicSource.GetComponent<MusicPlayer>();
+
+        float vol2 = Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume")) * multiplier;
+        m_MyAudioMixer.SetFloat("MusicVolume", vol2);
+
+        float vol3 = Mathf.Log10(PlayerPrefs.GetFloat("SFXVolume")) * multiplier;
+        m_MyAudioMixer.SetFloat("SFXVolume", vol3);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            //PlayAudioAtPosition("AudioClip_Bark", new Vector3(0, 0, 0),1,50);
-            PlaySound("AudioClip_Bark", 1);
-        }
+       
+        
     }
     void FillDictionary()
     {
         m_SoundsDictionary = new Dictionary<string, AudioClip>();
         AudioClip[] l_clips = Resources.LoadAll<AudioClip>("Audios/");
 
-        foreach(AudioClip clip in l_clips)
+        foreach (AudioClip clip in l_clips)
         {
             m_SoundsDictionary.Add(clip.name, clip);
         }
@@ -46,7 +63,9 @@ public class AudioManager : MonoBehaviour
     {
         if (m_SoundsDictionary.ContainsKey(soundName))
         {
+
             m_MyAudioSource.volume = volume;
+            m_MyAudioSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("SFX")[0];
             m_MyAudioSource.PlayOneShot(m_SoundsDictionary[soundName]);
         }
         else
@@ -55,6 +74,49 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayMusic(AudioClip _clip, float volume, bool loop)
+    {
+        m_MyMusicSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("Music")[0];
+        m_MyMusicSource.loop = loop;
+        m_MyMusicSource.PlayOneShot(_clip);
+
+    }
+
+    public void FadeIn()
+    {
+        StartCoroutine(PlayMusicFadeIn());
+    }
+
+    public void FadeOut()
+    {
+        if (!m_IsChanging)
+        {
+            StartCoroutine(PlayMusicFadeOut());
+        }
+        
+    }
+
+    IEnumerator PlayMusicFadeIn()
+    {
+        m_MyPlayer.ChangeAudioClip();
+        while (m_MyMusicSource.volume < 1)
+        {
+            m_MyMusicSource.volume += m_FadeSpeed * Time.deltaTime;
+            yield return null;
+
+        }
+        m_IsChanging = false;
+    }
+    IEnumerator PlayMusicFadeOut()
+    {
+        m_IsChanging = true;
+        while (m_MyMusicSource.volume > 0)
+        {
+            m_MyMusicSource.volume -= m_FadeSpeed * Time.deltaTime;
+            yield return null;
+        }
+        yield return StartCoroutine(PlayMusicFadeIn());
+    }
 
     public void PlayAudioAtPosition(string soundName, Vector3 spawnPosition, float minDistance, float maxDistance)
     {
@@ -74,4 +136,5 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound not found: " + soundName);
         }
     }
+
 }

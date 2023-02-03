@@ -15,6 +15,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "PlayerCancel",
+                    "type": "Button",
+                    "id": "7d25cebd-d15e-4bfd-b1c7-5b7768308cf3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Look",
                     "type": "Value",
                     "id": "54dd7ef7-a7dd-45d9-8808-a4d72acfca77",
@@ -375,6 +384,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "098484f0-2c2a-4828-86dd-d2dee2966444",
+                    "path": "*/{Cancel}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerCancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

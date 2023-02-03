@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
 public static class InputManager
 {
+    static GameObject sceneInput;
     static List<InputUnityEvent> events = new List<InputUnityEvent>(); //List of all action events
     public static PlayerInput playerInput; //Current PlayerInput
     public static EventSystem eventSystem; //Current EventSystem
@@ -21,7 +22,8 @@ public static class InputManager
             return;
         }
         //Instantiates InputManager prefab, sets the current EventSystem and PlayerInput, and creates all events for each action it has
-        GameObject sceneInput = CreateInputOnScene();
+        if(sceneInput!=null) return;
+        sceneInput = CreateInputOnScene();
         MonoBehaviour.DontDestroyOnLoad(sceneInput);
         playerInput = sceneInput.GetComponent<PlayerInput>();
         eventSystem = sceneInput.GetComponent<EventSystem>();
