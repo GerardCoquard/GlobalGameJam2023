@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -9,21 +10,32 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     public Dictionary<string, AudioClip> m_SoundsDictionary;
     private AudioSource m_MyAudioSource;
-    private AudioSource m_MyMusicSource;
+    public AudioSource m_MyMusicSource;
 
     public AudioMixer m_MyAudioMixer;
+
+    public float m_FadeSpeed;
+
+    float multiplier = 30;
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
-        
+
     }
     private void Start()
     {
         FillDictionary();
-        m_MyAudioSource = GetComponent<AudioSource>();
+        m_MyAudioSource = GameObject.Find("AudioSource").GetComponent<AudioSource>();
+        m_MyMusicSource = GameObject.Find("MusicSource").GetComponent<AudioSource>();
+
+        float vol2 = Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume")) * multiplier;
+        m_MyAudioMixer.SetFloat("MusicVolume", vol2);
+
+        float vol3 = Mathf.Log10(PlayerPrefs.GetFloat("SFXVolume")) * multiplier;
+        m_MyAudioMixer.SetFloat("SFXVolume", vol3);
     }
 
     private void Update()
@@ -31,15 +43,17 @@ public class AudioManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             //PlayAudioAtPosition("AudioClip_Bark", new Vector3(0, 0, 0),1,50);
-            PlaySound("AudioClip_Bark", 1);
+            //PlaySound("AudioClip_Bark", 1);
+
         }
+        
     }
     void FillDictionary()
     {
         m_SoundsDictionary = new Dictionary<string, AudioClip>();
         AudioClip[] l_clips = Resources.LoadAll<AudioClip>("Audios/");
 
-        foreach(AudioClip clip in l_clips)
+        foreach (AudioClip clip in l_clips)
         {
             m_SoundsDictionary.Add(clip.name, clip);
         }
@@ -47,8 +61,8 @@ public class AudioManager : MonoBehaviour
     public void PlaySound(string soundName, float volume)
     {
         if (m_SoundsDictionary.ContainsKey(soundName))
-        {   
-            
+        {
+
             m_MyAudioSource.volume = volume;
             m_MyAudioSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("SFX")[0];
             m_MyAudioSource.PlayOneShot(m_SoundsDictionary[soundName]);
@@ -59,37 +73,32 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayMusic(string musicName, float volume)
+    public void PlayMusic(AudioClip _clip, float volume)
     {
-        if (m_SoundsDictionary.ContainsKey(musicName))
-        {
-            StartCoroutine(PlayMusicFadeOut());
-            m_MyMusicSource.volume = 0;
-            m_MyMusicSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("Music")[0];
-            m_MyMusicSource.PlayOneShot(m_SoundsDictionary[musicName]);
-            StartCoroutine(PlayMusicFadeIn(volume));
-        }
-        else
-        {
-            Debug.LogWarning("Sound not found: " + musicName);
-        }
+        StartCoroutine(PlayMusicFadeOut(volume));
+        m_MyMusicSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("Music")[0];
+        m_MyMusicSource.PlayOneShot(_clip);
+
     }
 
     IEnumerator PlayMusicFadeIn(float maxVolume)
     {
-        while(m_MyMusicSource.volume < maxVolume)
+        while (m_MyMusicSource.volume < maxVolume)
         {
-            m_MyMusicSource.volume += 1 * Time.deltaTime;
+            m_MyMusicSource.volume += m_FadeSpeed * Time.deltaTime;
             yield return null;
+
         }
+
     }
-    IEnumerator PlayMusicFadeOut()
+    IEnumerator PlayMusicFadeOut(float maxVolume)
     {
-        while(m_MyMusicSource.volume > 0)
+        while (m_MyMusicSource.volume > 0)
         {
-            m_MyMusicSource.volume -= 1 * Time.deltaTime;
+            m_MyMusicSource.volume -= m_FadeSpeed * Time.deltaTime;
             yield return null;
         }
+        yield return StartCoroutine(PlayMusicFadeIn(maxVolume));
     }
 
     public void PlayAudioAtPosition(string soundName, Vector3 spawnPosition, float minDistance, float maxDistance)
