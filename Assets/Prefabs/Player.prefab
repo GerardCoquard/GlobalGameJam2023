@@ -200,7 +200,7 @@ Transform:
   - {fileID: 4928685060510004912}
   - {fileID: 6285783948098314550}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4928685062507849258
 MeshFilter:
@@ -268,7 +268,7 @@ CapsuleCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -306,11 +306,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aa9123d962095241bbc14d00bc87047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 10
+  gravity: 4
   speed: 5
   speedMultiplier: 1
-  jumpSpeed: 5
+  jumpSpeed: 1
   coyoteTime: 0.1
+  controller: {fileID: 0}
 --- !u!143 &4928685062507849263
 CharacterController:
   m_ObjectHideFlags: 0
@@ -386,7 +387,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!1001 &8193778531303564829
 PrefabInstance:
   m_ObjectHideFlags: 0

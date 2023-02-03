@@ -10,30 +10,31 @@ public class MovementController : MonoBehaviour
     [SerializeField] float speedMultiplier = 1.5f;
     [SerializeField] float jumpSpeed = 10.0f;
     [SerializeField] float coyoteTime = 0.0f;
-    CharacterController controller;
+    public CharacterController controller;
     Vector3 velocity;
     bool onGround = true;
     float timeOnAir;
+    bool motion;
     
     private void Start() {
         controller = GetComponent<CharacterController>();
+        motion = true;
     }
     private void Update() {
         SetGravity();
-        Move();
+        if(motion)Move();
         Jump();
     }
     void SetGravity()
     {
         velocity.y -= gravity * Time.deltaTime;
-        CollisionFlags collisionFlags = controller.Move(velocity * Time.deltaTime);
-        CheckCollision(collisionFlags);
     }
     public void Move()
     {
         Vector2 move = InputManager.GetAction("Move").ReadValue<Vector2>();
         bool sprinting = InputManager.GetAction("Sprint").ReadValue<float>() == 1f;
         Vector3 movement = (move.y * transform.forward) + (move.x * transform.right);
+        movement = new Vector3(movement.x,velocity.y,movement.z);
         CollisionFlags collisionFlags = controller.Move(movement * (sprinting ? speed*speedMultiplier : speed) * Time.deltaTime);
         CheckCollision(collisionFlags);
     }
@@ -63,5 +64,22 @@ public class MovementController : MonoBehaviour
             if (timeOnAir > coyoteTime)
             onGround = false;
         }
+    }
+    public void StopMotion(Vector3 direction, float cooldown,float force)
+    {
+        StartCoroutine(ActiveMotion(direction,cooldown,force));
+    }
+    IEnumerator ActiveMotion(Vector3 direction,float cooldown,float force)
+    {
+        float time = 0;
+        motion = false;
+        while(time < cooldown)
+        {
+            time+= Time.deltaTime;
+            Vector3 desiredDirection = new Vector3(direction.x,velocity.y,direction.z);
+            controller.Move(desiredDirection*force*Time.deltaTime);
+            yield return null;
+        }
+        motion = true;
     }
 }
