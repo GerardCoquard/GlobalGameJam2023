@@ -24,7 +24,6 @@ public class CameraController : MonoBehaviour
     }
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         m_Yaw = transform.rotation.y;
         m_Pitch = pitchController.localRotation.x;
     }

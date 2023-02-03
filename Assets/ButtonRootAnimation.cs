@@ -25,7 +25,12 @@ public class ButtonRootAnimation : MonoBehaviour, IPointerEnterHandler, IPointer
 
     IEnumerator GoUpwards()
     {
-        yield return new WaitForSeconds(timeBetweenSprites);
+        float time = 0;
+        while(time<timeBetweenSprites)
+        {
+            time+=Time.unscaledDeltaTime;
+            yield return null;
+        }
         currentIndex++;
         image.sprite = animationSprites[currentIndex];
         if(currentIndex<animationSprites.Count-1) StartCoroutine(GoUpwards());
