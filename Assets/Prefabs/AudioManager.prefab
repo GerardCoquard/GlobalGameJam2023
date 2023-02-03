@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be83e0900dc20847bd428020f757ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MyMusicSource: {fileID: 0}
+  m_MyMusicSource: {fileID: 3112244148965340329}
   m_MyAudioMixer: {fileID: 24100000, guid: 1716671e1b77a264c842c83df7e5873b, type: 2}
   m_FadeSpeed: 0.1
 --- !u!1 &3112244148965340331
