@@ -11,6 +11,7 @@ public class Options : MonoBehaviour
     public float multiplier;
     public Slider musicSlider;
     public Slider sfxSlider;
+    public GameObject pauseMenu;
 
     public void OnEnable()
     {
@@ -46,6 +47,7 @@ public class Options : MonoBehaviour
     }
     public void Back()
     {
+        if(pauseMenu!=null) pauseMenu.SetActive(true);
         gameObject.SetActive(false);
     }
 }
