@@ -46,12 +46,7 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            //PlayAudioAtPosition("AudioClip_Bark", new Vector3(0, 0, 0),1,50);
-            //PlaySound("AudioClip_Bark", 1);
-
-        }
+       
         
     }
     void FillDictionary()
