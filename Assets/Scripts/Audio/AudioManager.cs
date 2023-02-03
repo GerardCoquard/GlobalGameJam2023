@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Events;
 
 public class AudioManager : MonoBehaviour
 {
@@ -75,15 +76,24 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(AudioClip _clip, float volume)
     {
-        StartCoroutine(PlayMusicFadeOut(volume));
         m_MyMusicSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("Music")[0];
         m_MyMusicSource.PlayOneShot(_clip);
 
     }
 
-    IEnumerator PlayMusicFadeIn(float maxVolume)
+    public void FadeIn()
     {
-        while (m_MyMusicSource.volume < maxVolume)
+        StartCoroutine(PlayMusicFadeIn());
+    }
+
+    public void FadeOut()
+    {
+        StartCoroutine(PlayMusicFadeOut());
+    }
+
+    IEnumerator PlayMusicFadeIn()
+    {
+        while (m_MyMusicSource.volume < 1)
         {
             m_MyMusicSource.volume += m_FadeSpeed * Time.deltaTime;
             yield return null;
@@ -91,14 +101,14 @@ public class AudioManager : MonoBehaviour
         }
 
     }
-    IEnumerator PlayMusicFadeOut(float maxVolume)
+    IEnumerator PlayMusicFadeOut()
     {
         while (m_MyMusicSource.volume > 0)
         {
             m_MyMusicSource.volume -= m_FadeSpeed * Time.deltaTime;
             yield return null;
         }
-        yield return StartCoroutine(PlayMusicFadeIn(maxVolume));
+       
     }
 
     public void PlayAudioAtPosition(string soundName, Vector3 spawnPosition, float minDistance, float maxDistance)
