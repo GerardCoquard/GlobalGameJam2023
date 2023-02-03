@@ -15,9 +15,13 @@ public class AudioManager : MonoBehaviour
 
     public AudioMixer m_MyAudioMixer;
 
+    MusicPlayer m_MyPlayer;
+
     public float m_FadeSpeed;
 
     float multiplier = 30;
+
+    bool m_IsChanging;
     private void Awake()
     {
         if (instance == null)
@@ -31,6 +35,7 @@ public class AudioManager : MonoBehaviour
         FillDictionary();
         m_MyAudioSource = GameObject.Find("AudioSource").GetComponent<AudioSource>();
         m_MyMusicSource = GameObject.Find("MusicSource").GetComponent<AudioSource>();
+        m_MyPlayer = m_MyMusicSource.GetComponent<MusicPlayer>();
 
         float vol2 = Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume")) * multiplier;
         m_MyAudioMixer.SetFloat("MusicVolume", vol2);
@@ -74,9 +79,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayMusic(AudioClip _clip, float volume)
+    public void PlayMusic(AudioClip _clip, float volume, bool loop)
     {
         m_MyMusicSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("Music")[0];
+        m_MyMusicSource.loop = loop;
         m_MyMusicSource.PlayOneShot(_clip);
 
     }
@@ -88,27 +94,33 @@ public class AudioManager : MonoBehaviour
 
     public void FadeOut()
     {
-        StartCoroutine(PlayMusicFadeOut());
+        if (!m_IsChanging)
+        {
+            StartCoroutine(PlayMusicFadeOut());
+        }
+        
     }
 
     IEnumerator PlayMusicFadeIn()
     {
+        m_MyPlayer.ChangeAudioClip();
         while (m_MyMusicSource.volume < 1)
         {
             m_MyMusicSource.volume += m_FadeSpeed * Time.deltaTime;
             yield return null;
 
         }
-
+        m_IsChanging = false;
     }
     IEnumerator PlayMusicFadeOut()
     {
+        m_IsChanging = true;
         while (m_MyMusicSource.volume > 0)
         {
             m_MyMusicSource.volume -= m_FadeSpeed * Time.deltaTime;
             yield return null;
         }
-       
+        yield return StartCoroutine(PlayMusicFadeIn());
     }
 
     public void PlayAudioAtPosition(string soundName, Vector3 spawnPosition, float minDistance, float maxDistance)

@@ -5,7 +5,6 @@ public class MusicPlayer : MonoBehaviour
 {
     public List<AudioClip> m_SceneOST;
     private AudioClip m_CurrentAudioClip;
-    private AudioSource m_MyMusicSource;
     int audioIndex = 0;
     private void Start()
     {
@@ -15,15 +14,12 @@ public class MusicPlayer : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(audioIndex);
-        if (!AudioManager.instance.m_MyMusicSource.isPlaying)
+  
+
+        if(AudioManager.instance.m_MyMusicSource.time >= m_CurrentAudioClip.length - (m_CurrentAudioClip.length * 1/4))
         {
-            ChangeAudioClip();
-        }
-        if(AudioManager.instance.m_MyMusicSource.time >= m_CurrentAudioClip.length - 10f)
-        {
-            AudioManager.instance.FadeOut();
-            
+            StopAllCoroutines();
+            AudioManager.instance.FadeOut();     
         }
     }
     public void SetCurrentMusicClip(string name)
@@ -31,9 +27,10 @@ public class MusicPlayer : MonoBehaviour
         m_CurrentAudioClip = AudioManager.instance.m_SoundsDictionary[name];
     }
 
-    void ChangeAudioClip()
+    public void ChangeAudioClip()
     {
-        if (m_SceneOST[audioIndex++] != null)
+        
+        if (audioIndex+1 < m_SceneOST.Count)
         {
             audioIndex++;
             m_CurrentAudioClip = m_SceneOST[audioIndex];
@@ -44,8 +41,7 @@ public class MusicPlayer : MonoBehaviour
             audioIndex = 0; 
             m_CurrentAudioClip = m_SceneOST[audioIndex];
         }
-        m_MyMusicSource.volume = 0;
-        AudioManager.instance.FadeIn();
+        AudioManager.instance.m_MyMusicSource.volume = 0;
         AudioManager.instance.m_MyMusicSource.clip = m_CurrentAudioClip;
         AudioManager.instance.m_MyMusicSource.Play();
     }
