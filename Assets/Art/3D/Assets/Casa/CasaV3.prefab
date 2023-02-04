@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 4989245422719330416}
   - component: {fileID: 8255810404419299285}
   - component: {fileID: 6158233354491794207}
+  - component: {fileID: 8911162914409768470}
   m_Layer: 0
   m_Name: CasaV3
   m_TagString: Untagged
@@ -148,7 +149,7 @@ Transform:
   m_Children:
   - {fileID: 5377834762532054402}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: -152.6}
 --- !u!33 &8255810404419299285
 MeshFilter:
@@ -201,6 +202,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8911162914409768470
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5653861325384561354}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6908583938423024188, guid: 9e123776e514dfd4aa887c243615796c, type: 3}
 --- !u!1 &8636208368214645178
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d715759ad3ceb63418c5fe89886c6f56,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d715759ad3ceb63418c5fe89886c6f56,
         type: 3}
@@ -76,10 +76,42 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d715759ad3ceb63418c5fe89886c6f56,
         type: 3}
       propertyPath: m_Name
-      value: Maceta_Ryo
+      value: Maceta_Ryo Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d715759ad3ceb63418c5fe89886c6f56,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5957245444377797907}
   m_SourcePrefab: {fileID: 100100000, guid: d715759ad3ceb63418c5fe89886c6f56, type: 3}
+--- !u!1 &741053402458901835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d715759ad3ceb63418c5fe89886c6f56,
+    type: 3}
+  m_PrefabInstance: {fileID: 471094506996199450}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &5957245444377797907
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741053402458901835}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6281838106247034652, guid: d715759ad3ceb63418c5fe89886c6f56, type: 3}
