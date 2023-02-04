@@ -11,13 +11,18 @@ public class MovementController : MonoBehaviour
     [SerializeField] float jumpSpeed = 10.0f;
     [SerializeField] float coyoteTime = 0.0f;
     [SerializeField] float maxVerticalVelocity;
+    [SerializeField] List<AudioClip> jumps = new List<AudioClip>();
+    [SerializeField] List<AudioClip> steps = new List<AudioClip>();
     CharacterController controller;
     public Transform spawnPoint;
     [SerializeField] Vector3 velocity;
     bool onGround = true;
     float timeOnAir;
     bool motion;
-    
+
+    [Header("Audio")]
+    [SerializeField] float maxTimeBetweenSteps;
+    float currentTime;
     private void Start() {
         controller = GetComponent<CharacterController>();
         motion = true;
@@ -41,11 +46,26 @@ public class MovementController : MonoBehaviour
         movement = new Vector3(movement.x,velocity.y,movement.z);
         CollisionFlags collisionFlags = controller.Move(movement * (sprinting ? speed*speedMultiplier : speed) * Time.deltaTime);
         CheckCollision(collisionFlags);
+       
+        if(move != Vector2.zero)
+        {
+            currentTime += Time.deltaTime;
+            
+            if(currentTime>= maxTimeBetweenSteps)
+            {
+                AudioManager.instance.PlayRandomSound(steps);
+                currentTime = 0;
+            }
+        }
     }
     void Jump()
     {
-        if (InputManager.GetAction("Jump").ReadValue<float>() == 1f && onGround)
+        if (InputManager.GetAction("Jump").WasPressedThisFrame() && onGround)
         {
+
+                AudioManager.instance.PlayRandomSound(jumps);
+
+            
             velocity.y = jumpSpeed;
         }
     }

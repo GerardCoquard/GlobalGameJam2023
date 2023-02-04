@@ -73,15 +73,59 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound not found: " + soundName);
         }
     }
+    public void PlaySound(string soundName, float volume, bool loop)
+    {
+        if (m_SoundsDictionary.ContainsKey(soundName))
+        {
 
+            m_MyAudioSource.volume = volume;
+            m_MyAudioSource.loop = loop;
+            m_MyAudioSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("SFX")[0];
+            m_MyAudioSource.clip = m_SoundsDictionary[soundName];
+            m_MyAudioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Sound not found: " + soundName);
+        }
+    }
+
+    public void StopSoundLoop(string soundName)
+    {
+        if (m_SoundsDictionary.ContainsKey(soundName))
+        {
+           
+            m_MyAudioSource.loop = false;
+            m_MyAudioSource.Stop();
+        }
+        else
+        {
+            Debug.LogWarning("Sound not found: " + soundName);
+        }
+    }
     public void PlayMusic(AudioClip _clip, float volume, bool loop)
     {
         m_MyMusicSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("Music")[0];
         m_MyMusicSource.loop = loop;
-        m_MyMusicSource.PlayOneShot(_clip);
+     
 
     }
 
+    public void PlayRandomSound(List<AudioClip> clips)
+    {
+        m_MyAudioSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("SFX")[0];
+        m_MyAudioSource.PlayOneShot(clips[UnityEngine.Random.Range(0, clips.Count)]);
+    }
+
+    public void PlayRandomSoundWithTime(List<AudioClip> clips, float time, float maxTime)
+    {
+        m_MyAudioSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("SFX")[0];
+        if(time >= maxTime)
+        {
+            m_MyAudioSource.PlayOneShot(clips[UnityEngine.Random.Range(0, clips.Count)]);
+        }
+       
+    }
     public void FadeIn()
     {
         StartCoroutine(PlayMusicFadeIn());

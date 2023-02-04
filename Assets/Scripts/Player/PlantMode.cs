@@ -70,7 +70,7 @@ public class PlantMode : MonoBehaviour
         {
             if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground") && !controller.GetGrowing() && !controller.GetDecreasing())
             {
-               
+                AudioManager.instance.PlaySound("RaizesCreciendo", 0.5f, true);
                 controller.StrartGrowing(hit.point);
                 scenePointer.SpawnPointer(hit.point);
             }
@@ -79,9 +79,11 @@ public class PlantMode : MonoBehaviour
 
     void StopGrow()
     {
-        if(controller.GetGrowing())
+
+        AudioManager.instance.StopSoundLoop("RaizesCreciendo");
+        if (controller.GetGrowing())
         {
-            
+ 
             controller.StopGrow();
             scenePointer.DespawnPointer();
         }
@@ -92,6 +94,7 @@ public class PlantMode : MonoBehaviour
     }
     void StopDecrease()
     {
+        
         controller.StopDecreasing();
     }
     Sprite UpdatePointerState()
@@ -136,6 +139,7 @@ public class PlantMode : MonoBehaviour
         }
         if (Physics.Raycast(ray, out hit, distance, interactPlantLayerMask))
         {
+            AudioManager.instance.PlaySound("SelectPlant", 0.5f);
             RootController newController = hit.transform.GetComponentInParent<RootController>();
             if(controller==null)
             {
