@@ -55,7 +55,7 @@ MonoBehaviour:
   m_RootLength: 2.922411
   m_CollisionDetectionLayers:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 1600
 --- !u!1001 &7828478749406746989
 PrefabInstance:
   m_ObjectHideFlags: 0

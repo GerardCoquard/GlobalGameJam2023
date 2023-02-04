@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlantMode : MonoBehaviour
 {
     [SerializeField] float distance;
+    [SerializeField] float collectableDistance;
     [SerializeField] Transform cam;
     [SerializeField] LayerMask interactPlantLayerMask;
     [SerializeField] LayerMask pointerLayerMask;
+    [SerializeField] LayerMask collectLayerMask;
     [SerializeField] RootDesiredPoint scenePointer;
     [SerializeField] Sprite defaultCursor;
     [SerializeField] Sprite canPlantCursor;
@@ -38,6 +40,7 @@ public class PlantMode : MonoBehaviour
             if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit,Mathf.Infinity))
             {
                 if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Root") && Vector3.Distance(transform.position,hit.point)<distance) currentCursor = SetCursor(lookingPlantCursor);
+                else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Collectable") && Vector3.Distance(transform.position, hit.point) < collectableDistance) currentCursor = SetCursor(lookingPlantCursor);
                 else currentCursor = SetCursor(defaultCursor);
             }
             return;
@@ -103,7 +106,8 @@ public class PlantMode : MonoBehaviour
             if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit,Mathf.Infinity))
             {
                 if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Root") && Vector3.Distance(transform.position,hit.point)<distance) return SetCursor(lookingPlantCursor);
-                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Collectable") && Vector3.Distance(transform.position, hit.point) < collectableDistance)return currentCursor = SetCursor(lookingPlantCursor);
+                if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
                     if(Vector3.Distance(transform.position,hit.point) < distance) return SetCursor(canPlantCursor);
                     else return SetCursor(canPlantCursorNotRanged);
@@ -121,7 +125,15 @@ public class PlantMode : MonoBehaviour
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit hit;
-
+        if(Physics.Raycast(ray, out hit, distance, collectLayerMask))
+        {
+            if (InputManager.GetAction("Interact").WasPressedThisFrame())
+            {
+                Destroy(hit.collider.gameObject);
+                //FinalConditionManager.instance.CompleteOne();
+               
+            }
+        }
         if (Physics.Raycast(ray, out hit, distance, interactPlantLayerMask))
         {
             RootController newController = hit.transform.GetComponentInParent<RootController>();

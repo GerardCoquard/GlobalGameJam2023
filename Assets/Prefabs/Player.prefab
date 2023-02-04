@@ -368,13 +368,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 50
+  collectableDistance: 50
   cam: {fileID: 4928685061363586217}
   interactPlantLayerMask:
     serializedVersion: 2
     m_Bits: 128
   pointerLayerMask:
     serializedVersion: 2
-    m_Bits: 704
+    m_Bits: 1728
+  collectLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   scenePointer: {fileID: 7467069761978806638}
   defaultCursor: {fileID: 21300000, guid: 4591adaea6e92df4c81813731b74d7e0, type: 3}
   canPlantCursor: {fileID: 21300000, guid: 527e391e5d8a1334db91f50cdaa02eff, type: 3}
