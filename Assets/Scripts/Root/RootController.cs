@@ -40,6 +40,7 @@ public class RootController : MonoBehaviour
         AddRoot();
         while (CheckMaxDistance() && CheckCollision(l_InitialPosition))
         {
+            CameraShake.instance.shake();
             m_Distance += m_GrowthSpeed * Time.deltaTime;
             m_Distance = Mathf.Clamp(m_Distance,0,m_MaxDistance - m_TotalDistance);
             CheckIfNeedRoots();
@@ -60,6 +61,7 @@ public class RootController : MonoBehaviour
         Transform lastNode = transform.GetChild(transform.childCount-1);
         while (m_TotalDistance > 0)
         {
+            CameraShake.instance.shake();
             float distanceLost = m_GrowthSpeed * Time.deltaTime;
             m_TotalDistance -= distanceLost;
             m_TotalDistance = Mathf.Clamp(m_TotalDistance,0,m_MaxDistance);
@@ -75,6 +77,7 @@ public class RootController : MonoBehaviour
         if(!growing) return;
         growing = false;
 
+        CameraShake.instance.StopShake();
         RootGrowController lastRoot = m_TotalRoots[m_TotalRoots.Count-1];
         Vector3 l_DirectioNode = lastRoot.GetGrowAmount()*m_RootLength * lastRoot.transform.forward;
         Vector3 l_NodePosition = lastRoot.transform.position + l_DirectioNode;
@@ -93,6 +96,7 @@ public class RootController : MonoBehaviour
     {
         if(!decreasing) return;
         decreasing = false;
+        CameraShake.instance.StopShake();
         Transform lastNode = transform.GetChild(transform.childCount-1);
         SetLastNode(lastNode);
         StopAllCoroutines();

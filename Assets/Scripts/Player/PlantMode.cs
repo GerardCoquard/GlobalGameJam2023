@@ -42,6 +42,7 @@ public class PlantMode : MonoBehaviour
 
         if (InputManager.GetAction("Fire").WasPressedThisFrame()) Grow();
         if (InputManager.GetAction("Fire").WasReleasedThisFrame()) StopGrow();
+       
 
         currentCursor = UpdatePointerState();
         if(!controller.GetGrowing()) scenePointer.DespawnPointer();
@@ -54,6 +55,7 @@ public class PlantMode : MonoBehaviour
         {
             if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground") && !controller.GetGrowing() && !controller.GetDecreasing())
             {
+               
                 controller.StrartGrowing(hit.point);
                 scenePointer.SpawnPointer(hit.point);
             }
@@ -64,6 +66,7 @@ public class PlantMode : MonoBehaviour
     {
         if(controller.GetGrowing())
         {
+            
             controller.StopGrow();
             scenePointer.DespawnPointer();
         }
