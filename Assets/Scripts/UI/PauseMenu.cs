@@ -21,9 +21,15 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
     }
-    public void Exit()
+    public void ResetPlayer()
     {
-        Application.Quit();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if(player==null) return;
+        MovementController playerController = player.GetComponent<MovementController>();
+        playerController.GetCharacterController().enabled = false;
+        player.transform.position = playerController.spawnPoint.position;
+        player.transform.rotation = playerController.spawnPoint.rotation;
+        playerController.GetCharacterController().enabled = true;
     }
     public void Close()
     {

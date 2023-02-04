@@ -10,7 +10,8 @@ public class MovementController : MonoBehaviour
     [SerializeField] float speedMultiplier = 1.5f;
     [SerializeField] float jumpSpeed = 10.0f;
     [SerializeField] float coyoteTime = 0.0f;
-    public CharacterController controller;
+    CharacterController controller;
+    public Transform spawnPoint;
     Vector3 velocity;
     bool onGround = true;
     float timeOnAir;
@@ -19,6 +20,7 @@ public class MovementController : MonoBehaviour
     private void Start() {
         controller = GetComponent<CharacterController>();
         motion = true;
+        spawnPoint.SetParent(null);
     }
     private void Update() {
         SetGravity();
@@ -81,5 +83,9 @@ public class MovementController : MonoBehaviour
             yield return null;
         }
         motion = true;
+    }
+    public CharacterController GetCharacterController()
+    {
+        return controller;
     }
 }
