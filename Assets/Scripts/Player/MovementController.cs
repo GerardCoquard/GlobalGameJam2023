@@ -10,9 +10,10 @@ public class MovementController : MonoBehaviour
     [SerializeField] float speedMultiplier = 1.5f;
     [SerializeField] float jumpSpeed = 10.0f;
     [SerializeField] float coyoteTime = 0.0f;
+    [SerializeField] float maxVerticalVelocity;
     CharacterController controller;
     public Transform spawnPoint;
-    Vector3 velocity;
+    [SerializeField] Vector3 velocity;
     bool onGround = true;
     float timeOnAir;
     bool motion;
@@ -30,6 +31,7 @@ public class MovementController : MonoBehaviour
     void SetGravity()
     {
         velocity.y -= gravity * Time.deltaTime;
+        velocity.y = Mathf.Clamp(velocity.y,-maxVerticalVelocity,maxVerticalVelocity);
     }
     public void Move()
     {

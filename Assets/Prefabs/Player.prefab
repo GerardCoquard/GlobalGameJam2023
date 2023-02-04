@@ -312,7 +312,9 @@ MonoBehaviour:
   speedMultiplier: 1
   jumpSpeed: 1
   coyoteTime: 0.1
+  maxVerticalVelocity: 3
   spawnPoint: {fileID: 2760048908084374221}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!143 &4928685062507849263
 CharacterController:
   m_ObjectHideFlags: 0
@@ -384,7 +386,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0

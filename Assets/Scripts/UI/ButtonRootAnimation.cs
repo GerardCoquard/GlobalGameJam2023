@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonRootAnimation : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonRootAnimation : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,ISelectHandler,IDeselectHandler
 {
     public List<Sprite> animationSprites;
     public float timeBetweenSprites;
@@ -15,12 +15,20 @@ public class ButtonRootAnimation : MonoBehaviour, IPointerEnterHandler, IPointer
     }
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        if(currentIndex<animationSprites.Count-1) StartCoroutine(GoUpwards());
+        if(currentIndex<animationSprites.Count-1) 
+        {
+            StopAllCoroutines();
+            StartCoroutine(GoUpwards());
+        }
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        if(currentIndex>0) StartCoroutine(GoDownwards());
+        if(currentIndex>0)
+        {
+            StopAllCoroutines();
+            StartCoroutine(GoDownwards());
+        }
     }
 
     IEnumerator GoUpwards()
@@ -41,5 +49,23 @@ public class ButtonRootAnimation : MonoBehaviour, IPointerEnterHandler, IPointer
         currentIndex--;
         image.sprite = animationSprites[currentIndex];
         if(currentIndex>0) StartCoroutine(GoDownwards());
+    }
+
+    void ISelectHandler.OnSelect(BaseEventData eventData)
+    {
+        if(currentIndex<animationSprites.Count-1) 
+        {
+            StopAllCoroutines();
+            StartCoroutine(GoUpwards());
+        }
+    }
+
+    void IDeselectHandler.OnDeselect(BaseEventData eventData)
+    {
+        if(currentIndex>0)
+        {
+            StopAllCoroutines();
+            StartCoroutine(GoDownwards());
+        }
     }
 }
