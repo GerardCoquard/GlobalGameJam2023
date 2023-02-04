@@ -62,10 +62,7 @@ public class MovementController : MonoBehaviour
     {
         if (InputManager.GetAction("Jump").WasPressedThisFrame() && onGround)
         {
-
-                AudioManager.instance.PlayRandomSound(jumps);
-
-            
+            AudioManager.instance.PlayRandomSound(jumps);
             velocity.y = jumpSpeed;
         }
     }
