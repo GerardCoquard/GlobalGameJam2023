@@ -12,6 +12,7 @@ public class Button : MonoBehaviour
         
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("Root"))
         {
+            AudioManager.instance.PlaySound("ButtonClicked", 0.5f);
             CheckList();
             if (pressers.Contains(other.gameObject)) return;
             pressers.Add(other.gameObject);

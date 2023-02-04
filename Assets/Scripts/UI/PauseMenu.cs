@@ -14,6 +14,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void Options()
     {
+        AudioManager.instance.PlaySound("Botones_Menu", 0.5f);
         gameObject.SetActive(false);
         optionsObject.SetActive(true);
     }
@@ -23,6 +24,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void ResetPlayer()
     {
+        AudioManager.instance.PlaySound("Botones_Menu", 0.5f);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if(player==null) return;
         MovementController playerController = player.GetComponent<MovementController>();
@@ -33,6 +35,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void Close()
     {
+        AudioManager.instance.PlaySound("Botones_Menu", 0.5f);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         InputManager.ChangeActionMap("Player");
