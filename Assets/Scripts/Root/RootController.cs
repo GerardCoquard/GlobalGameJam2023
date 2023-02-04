@@ -51,7 +51,6 @@ public class RootController : MonoBehaviour
         {
             RemoveRoot();
         }
-
         StopGrow();
     }
     IEnumerator Decrease()
@@ -70,6 +69,7 @@ public class RootController : MonoBehaviour
             yield return null;
         }
         DestroyImmediate(lastNode.gameObject);
+        CameraShake.instance.StopShake();
         decreasing = false;
     }
     public void StopGrow()

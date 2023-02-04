@@ -14,6 +14,7 @@ public class Chicken : MonoBehaviour
     List<GameObject> pressers = new List<GameObject>();
     private void LateUpdate() {
         if(stopped) return;
+        if(Time.timeScale == 0) return;
         speed+=acceleration*Time.deltaTime;
         speed = Mathf.Clamp(speed,0,maxSpeed);
         transform.eulerAngles = new Vector3(transform.eulerAngles.x,transform.eulerAngles.y,transform.eulerAngles.z+speed);
