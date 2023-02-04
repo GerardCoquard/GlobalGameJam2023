@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class FinalConditionManager : MonoBehaviour
+public class Collectables : MonoBehaviour
 {
-    public static FinalConditionManager instance;
+    public static Collectables instance;
+    public Animator anim;
     public List<GameObject> collectables = new List<GameObject>();
     private void Awake()
     {
@@ -13,7 +14,7 @@ public class FinalConditionManager : MonoBehaviour
     {
         foreach (GameObject item in collectables)
         {
-            if (!item.activeSelf) item.SetActive(true); return;
+            if (!item.activeSelf) item.SetActive(true); break;
             
         }
         CheckIfAllCompleted();
@@ -23,8 +24,8 @@ public class FinalConditionManager : MonoBehaviour
         foreach (GameObject item in collectables)
         {
             if (!item.activeSelf) return;
-            //Cinematic
         }
+        anim.Play("Cinematic");
     }
 }
 
