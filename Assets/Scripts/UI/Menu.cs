@@ -11,6 +11,7 @@ public class Menu : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
+        Time.timeScale = 1f;
         InputManager.ChangeActionMap("UI");
     }
     public void Options()
