@@ -10,7 +10,11 @@ public class PlantMode : MonoBehaviour
     [SerializeField] LayerMask pointerLayerMask;
     [SerializeField] RootDesiredPoint scenePointer;
     [SerializeField] Sprite defaultCursor;
-    [SerializeField] Sprite plantCursor;
+    [SerializeField] Sprite canPlantCursor;
+    [SerializeField] Sprite canPlantCursorNotRanged;
+    [SerializeField] Sprite notPlantCursor;
+    [SerializeField] Sprite notPlantCursorNotRanged;
+    [SerializeField] Sprite lookingPlantCursor;
 
     public delegate void CursorChanged(Sprite image);
     public static event CursorChanged OnCursorChanged;
@@ -28,14 +32,22 @@ public class PlantMode : MonoBehaviour
     {
         if (InputManager.GetAction("Interact").WasPressedThisFrame()) CheckIfControllerChanged();
 
-        if (controller == null) return;
+        if (controller == null)
+        {
+            RaycastHit hit;
+            if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit,Mathf.Infinity))
+            {
+                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Root") && Vector3.Distance(transform.position,hit.point)<distance) currentCursor = SetCursor(lookingPlantCursor);
+                else currentCursor = SetCursor(defaultCursor);
+            }
+            return;
+        }
         
         if (InputManager.GetAction("Aim").WasPressedThisFrame()) Decrease();
         if (InputManager.GetAction("Aim").WasReleasedThisFrame()) StopDecrease();
 
         if(controller.FullyGrown())
         {
-            currentCursor = SetCursor(defaultCursor);
             scenePointer.DespawnPointer();
             return;
         }
@@ -88,11 +100,16 @@ public class PlantMode : MonoBehaviour
         else
         {
             RaycastHit hit;
-            Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance, pointerLayerMask);
-            if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance, pointerLayerMask))
+            if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit,Mathf.Infinity))
             {
-                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground")) return SetCursor(plantCursor);
-                else return SetCursor(defaultCursor);
+                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Root") && Vector3.Distance(transform.position,hit.point)<distance) return SetCursor(lookingPlantCursor);
+                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                {
+                    if(Vector3.Distance(transform.position,hit.point) < distance) return SetCursor(canPlantCursor);
+                    else return SetCursor(canPlantCursorNotRanged);
+                }
+                else if(Vector3.Distance(transform.position,hit.point) < distance) return SetCursor(notPlantCursor);
+                else return SetCursor(notPlantCursorNotRanged);
             }
             else
             {
@@ -108,25 +125,32 @@ public class PlantMode : MonoBehaviour
         if (Physics.Raycast(ray, out hit, distance, interactPlantLayerMask))
         {
             RootController newController = hit.transform.GetComponentInParent<RootController>();
-            fillRoot.ChangeState(true);
-            if(newController != controller && controller != null)
+            if(controller==null)
+            {
+                controller = newController;
+                fillRoot.ChangeState(true);
+                return;
+            }
+            else if(newController != controller)
             {
                 controller.StopGrow();
                 controller.StopDecreasing();
                 scenePointer.DespawnPointer();
-            }
-            controller = newController;
+
+                controller = newController;
+                fillRoot.ChangeState(true);
+            }       
         }
         else
         {
-            fillRoot.ChangeState(false);
             if (controller != null)
             {
                 controller.StopGrow();
                 controller.StopDecreasing();
                 scenePointer.DespawnPointer();
+                fillRoot.ChangeState(false);
+                controller = null;
             }
-            controller = null;
         }
     }
     Sprite SetCursor(Sprite cursor)
