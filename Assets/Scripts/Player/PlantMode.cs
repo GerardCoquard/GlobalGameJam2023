@@ -133,6 +133,7 @@ public class PlantMode : MonoBehaviour
                 {
                     controller = newController;
                     controller.SetSelected();
+                    AudioManager.instance.PlaySoundOneShot("Select","Select",0.5f);
                     fillRoot.ChangeState(true);
                     return;
                 }
@@ -144,6 +145,7 @@ public class PlantMode : MonoBehaviour
                     scenePointer.DespawnPointer();
                     controller = newController;
                     controller.SetSelected();
+                    AudioManager.instance.PlaySoundOneShot("Select","Select",0.5f);
                     fillRoot.ChangeState(true);
                 }
             }
