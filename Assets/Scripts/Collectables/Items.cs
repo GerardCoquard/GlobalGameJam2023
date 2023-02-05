@@ -5,7 +5,10 @@ using UnityEngine;
 public class Items : MonoBehaviour
 {
     bool picked;
-    public Animator anim;
+    Animator anim;
+    private void Start() {
+        anim = GetComponent<Animator>();
+    }
     public void PickItem()
     {
         if(picked) return;
@@ -15,6 +18,6 @@ public class Items : MonoBehaviour
     public void AnimEvent()
     {
         Collectables.instance.CompleteOne();
-        DestroyImmediate(gameObject);
+        Destroy(gameObject);
     }
 }

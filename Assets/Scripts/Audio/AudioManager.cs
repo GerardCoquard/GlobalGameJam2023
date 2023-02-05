@@ -97,7 +97,26 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound not found: " + soundName);
         }
     }
-    public void PlaySoundOneShot(string soundName, string clipName,float volume,bool loop)
+    public void PlaySound(string soundName, string clipName, float volume,bool loop)
+    {
+        if(!m_SoundsDictionary.ContainsKey(clipName)) return;
+        if(instancedAudioSources.ContainsKey(soundName))
+        {
+            if(instancedAudioSources[soundName].clip != m_SoundsDictionary[clipName]) instancedAudioSources[soundName].clip = m_SoundsDictionary[clipName];
+            if(!instancedAudioSources[soundName].isPlaying) instancedAudioSources[soundName].Play();
+            return;
+        }
+
+        AudioSource l_audioSource = new GameObject("AudioSource").AddComponent<AudioSource>();
+        l_audioSource.clip = m_SoundsDictionary[clipName];
+        l_audioSource.spatialBlend = 0;
+        l_audioSource.volume = volume;
+        l_audioSource.loop = loop;
+        l_audioSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("SFX")[0];
+        instancedAudioSources.Add(soundName,l_audioSource);
+        l_audioSource.Play();
+    }
+    public void PlaySoundOneShot(string soundName, string clipName,float volume)
     {
         if(!m_SoundsDictionary.ContainsKey(clipName)) return;
         if(instancedAudioSources.ContainsKey(soundName))
@@ -109,6 +128,8 @@ public class AudioManager : MonoBehaviour
         {
             AudioSource l_audioSource = new GameObject("AudioSource").AddComponent<AudioSource>();
             l_audioSource.spatialBlend = 0;
+            l_audioSource.volume = volume;
+            l_audioSource.loop = false;
             l_audioSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("SFX")[0];
             instancedAudioSources.Add(soundName,l_audioSource);
             l_audioSource.PlayOneShot(m_SoundsDictionary[clipName]);
@@ -121,13 +142,15 @@ public class AudioManager : MonoBehaviour
            instancedAudioSources[soundName].Stop();
         }
     }
-    public void PlaySoundOneShotAtPosition(string soundName, Vector3 spawnPosition, float minDistance, float maxDistance)
+    public void PlaySoundOneShotAtPosition(string soundName, float volume ,Vector3 spawnPosition, float minDistance, float maxDistance)
     {
         if (m_SoundsDictionary.ContainsKey(soundName))
         {
             AudioSource l_audioSource = new GameObject("AudioSource").AddComponent<AudioSource>();
             l_audioSource.clip = m_SoundsDictionary[soundName];
             l_audioSource.spatialBlend = 1;
+            l_audioSource.loop = false;
+            l_audioSource.volume = volume;
             l_audioSource.minDistance = minDistance;
             l_audioSource.maxDistance = maxDistance;
             l_audioSource.transform.position = spawnPosition;
@@ -144,6 +167,8 @@ public class AudioManager : MonoBehaviour
         AudioSource l_audioSource = new GameObject("AudioSource").AddComponent<AudioSource>();
         l_audioSource.clip = m_SoundsDictionary[soundName];
         l_audioSource.spatialBlend = 0;
+        l_audioSource.volume = volume;
+        l_audioSource.loop = loop;
         l_audioSource.outputAudioMixerGroup = m_MyAudioMixer.FindMatchingGroups("SFX")[0];
         instancedAudioSources.Add(soundName,l_audioSource);
         return l_audioSource;

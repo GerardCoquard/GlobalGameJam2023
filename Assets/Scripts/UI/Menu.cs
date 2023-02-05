@@ -16,17 +16,17 @@ public class Menu : MonoBehaviour
     }
     public void Options()
     {
-        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f,false);
+        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f);
         optionsObject.SetActive(true);
     }
     public void Play()
     {
-        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f,false);
+        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f);
         SceneManager.LoadScene(gameSceneName);
     }
     public void Exit()
     {
-        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f,false);
+        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f);
         Application.Quit();
     }
 }

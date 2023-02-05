@@ -55,7 +55,7 @@ public class MovementController : MonoBehaviour
             
             if(currentTime>= maxTimeBetweenSteps)
             {
-                AudioManager.instance.PlaySoundOneShot(audioStep,steps[Random.Range(0,steps.Count)].name,1,false);
+                AudioManager.instance.PlaySoundOneShot(audioStep,steps[Random.Range(0,steps.Count)].name,1);
                 currentTime = 0;
             }
         }
@@ -64,7 +64,7 @@ public class MovementController : MonoBehaviour
     {
         if (InputManager.GetAction("Jump").WasPressedThisFrame() && onGround)
         {
-            if(velocity.y<=0)AudioManager.instance.PlaySoundOneShot(audioJump,jumps[Random.Range(0,jumps.Count)].name,1,false);
+            if(velocity.y<=0)AudioManager.instance.PlaySoundOneShot(audioJump,jumps[Random.Range(0,jumps.Count)].name,1);
             velocity.y = jumpSpeed;
         }
     }

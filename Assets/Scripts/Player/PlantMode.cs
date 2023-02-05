@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlantMode : MonoBehaviour
 {
-    [SerializeField] float distance;
+    [SerializeField] float plantDistance;
     [SerializeField] float collectableDistance;
     [SerializeField] Transform cam;
     [SerializeField] LayerMask interactPlantLayerMask;
@@ -39,7 +39,7 @@ public class PlantMode : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit,Mathf.Infinity))
             {
-                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Root") && Vector3.Distance(transform.position,hit.point)<distance) currentCursor = SetCursor(lookingPlantCursor);
+                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Root") && Vector3.Distance(transform.position,hit.point)<plantDistance) currentCursor = SetCursor(lookingPlantCursor);
                 else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Collectable") && Vector3.Distance(transform.position, hit.point) < collectableDistance) currentCursor = SetCursor(lookingPlantCursor);
                 else currentCursor = SetCursor(defaultCursor);
             }
@@ -66,11 +66,10 @@ public class PlantMode : MonoBehaviour
     void Grow()
     {
         RaycastHit hit;
-        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance, pointerLayerMask))
+        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, plantDistance, pointerLayerMask))
         {
             if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground") && !controller.GetGrowing() && !controller.GetDecreasing())
             {
-                AudioManager.instance.PlaySound("RaizesCreciendo", 0.5f, true);
                 controller.StrartGrowing(hit.point);
                 scenePointer.SpawnPointer(hit.point);
             }
@@ -79,11 +78,8 @@ public class PlantMode : MonoBehaviour
 
     void StopGrow()
     {
-
-        //AudioManager.instance.StopSoundLoop("RaizesCreciendo");
         if (controller.GetGrowing())
         {
- 
             controller.StopGrow();
             scenePointer.DespawnPointer();
         }
@@ -108,14 +104,14 @@ public class PlantMode : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit,Mathf.Infinity))
             {
-                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Root") && Vector3.Distance(transform.position,hit.point)<distance) return SetCursor(lookingPlantCursor);
+                if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Root") && Vector3.Distance(transform.position,hit.point)<plantDistance) return SetCursor(lookingPlantCursor);
                 if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Collectable") && Vector3.Distance(transform.position, hit.point) < collectableDistance)return currentCursor = SetCursor(lookingPlantCursor);
                 if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
-                    if(Vector3.Distance(transform.position,hit.point) < distance) return SetCursor(canPlantCursor);
+                    if(Vector3.Distance(transform.position,hit.point) < plantDistance) return SetCursor(canPlantCursor);
                     else return SetCursor(canPlantCursorNotRanged);
                 }
-                else if(Vector3.Distance(transform.position,hit.point) < distance) return SetCursor(notPlantCursor);
+                else if(Vector3.Distance(transform.position,hit.point) < plantDistance) return SetCursor(notPlantCursor);
                 else return SetCursor(notPlantCursorNotRanged);
             }
             else
@@ -128,33 +124,45 @@ public class PlantMode : MonoBehaviour
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, distance, collectLayerMask))
+        if (Physics.Raycast(ray, out hit, plantDistance, pointerLayerMask))
         {
-            if (InputManager.GetAction("Interact").WasPressedThisFrame())
+            if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Root"))
             {
-                hit.collider.GetComponent<Items>().PickItem();
+                RootController newController = hit.transform.GetComponentInParent<RootController>();
+                if(controller==null)
+                {
+                    controller = newController;
+                    controller.picked = true;
+                    fillRoot.ChangeState(true);
+                    return;
+                }
+                else if(newController != controller)
+                {
+                    controller.StopGrow();
+                    controller.StopDecreasing();
+                    controller.SetUnselected();
+                    scenePointer.DespawnPointer();
+                    controller = newController;
+                    controller.picked = true;
+                    fillRoot.ChangeState(true);
+                }
             }
-        }
-        if (Physics.Raycast(ray, out hit, distance, interactPlantLayerMask))
-        {
-            RootController newController = hit.transform.GetComponentInParent<RootController>();
-            if(controller==null)
+            else if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Collectable") && Vector3.Distance(transform.position, hit.point) < collectableDistance)
             {
-                controller = newController;
-                controller.picked = true;
-                fillRoot.ChangeState(true);
-                return;
+                hit.transform.GetComponentInParent<Items>().PickItem();
             }
-            else if(newController != controller)
+            else
             {
-                controller.StopGrow();
-                controller.StopDecreasing();
-                controller.SetUnselected();
-                scenePointer.DespawnPointer();
-                controller = newController;
-                controller.picked = true;
-                fillRoot.ChangeState(true);
-            }       
+                if (controller != null)
+                {
+                    controller.StopGrow();
+                    controller.StopDecreasing();
+                    controller.SetUnselected();
+                    scenePointer.DespawnPointer();
+                    fillRoot.ChangeState(false);
+                    controller = null;
+                }
+            }
         }
         else
         {

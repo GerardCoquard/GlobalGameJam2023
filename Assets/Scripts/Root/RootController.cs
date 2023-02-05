@@ -23,6 +23,10 @@ public class RootController : MonoBehaviour
     bool decreasing;
     public bool picked;
     float timeOffline;
+    int id;
+    private void Start() {
+        id = Random.Range(0,5000);
+    }
     public void StrartGrowing(Vector3 target)
     {
         timeOffline = 0;
@@ -43,9 +47,10 @@ public class RootController : MonoBehaviour
         m_GrowthDirection.Normalize();
         m_NextPosition = l_InitialPosition;
         AddRoot();
+        if(picked)AudioManager.instance.PlaySound("RaizesCreciendo"+id.ToString(),"RaizesCreciendo", 0.5f, true);
         while (CheckMaxDistance() && CheckCollision(l_InitialPosition))
         {
-            CameraShake.instance.shake();
+            if(picked)CameraShake.instance.shake();
             m_Distance += m_GrowthSpeed * Time.deltaTime;
             m_Distance = Mathf.Clamp(m_Distance,0,m_MaxDistance - m_TotalDistance);
             CheckIfNeedRoots();
@@ -63,9 +68,10 @@ public class RootController : MonoBehaviour
         decreasing = true;
         m_Distance = 0;
         Transform lastNode = transform.GetChild(transform.childCount-1);
+        if(picked)AudioManager.instance.PlaySound("RaizesCreciendo"+id.ToString(),"RaizesCreciendo", 0.5f, true);
         while (m_TotalDistance > 0)
         {
-            CameraShake.instance.shake();
+            if(picked)CameraShake.instance.shake();
             float distanceLost = m_GrowthSpeed * Time.deltaTime;
             m_TotalDistance -= distanceLost;
             m_TotalDistance = Mathf.Clamp(m_TotalDistance,0,m_MaxDistance);
@@ -76,12 +82,14 @@ public class RootController : MonoBehaviour
         DestroyImmediate(lastNode.gameObject);
         CameraShake.instance.StopShake();
         decreasing = false;
+        AudioManager.instance.StopSound("RaizesCreciendo"+id.ToString());
     }
     public void StopGrow()
     {
         if(!growing) return;
         growing = false;
 
+        AudioManager.instance.StopSound("RaizesCreciendo"+id.ToString());
         CameraShake.instance.StopShake();
         RootGrowController lastRoot = m_TotalRoots[m_TotalRoots.Count-1];
         Vector3 l_DirectioNode = lastRoot.GetGrowAmount()*m_RootLength * lastRoot.transform.forward;
@@ -100,6 +108,7 @@ public class RootController : MonoBehaviour
     public void StopDecreasing()
     {
         if(!decreasing) return;
+        AudioManager.instance.StopSound("RaizesCreciendo"+id.ToString());
         decreasing = false;
         CameraShake.instance.StopShake();
         Transform lastNode = transform.GetChild(transform.childCount-1);

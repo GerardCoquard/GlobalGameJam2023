@@ -327,6 +327,8 @@ MonoBehaviour:
   jumpSpeed: 1
   coyoteTime: 0.1
   maxVerticalVelocity: 3
+  audioJump: jumpAudio
+  audioStep: stepAudio
   jumps:
   - {fileID: 8300000, guid: 3760f6673e2186a4b9cc9492b75ca19a, type: 3}
   - {fileID: 8300000, guid: 43da31cacabb3594ba8475ea3def5997, type: 3}
@@ -375,8 +377,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74d02ce2880d404db30ecd6f9e30828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 50
-  collectableDistance: 50
+  plantDistance: 50
+  collectableDistance: 2
   cam: {fileID: 4928685061363586217}
   interactPlantLayerMask:
     serializedVersion: 2

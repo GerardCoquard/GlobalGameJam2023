@@ -14,18 +14,18 @@ public class PauseMenu : MonoBehaviour
     }
     public void Options()
     {
-        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f,false);
+        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f);
         gameObject.SetActive(false);
         optionsObject.SetActive(true);
     }
     public void ExitMenu()
     {
-        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f,false);
+        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f);
         SceneManager.LoadScene("Menu");
     }
     public void ResetPlayer()
     {
-        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f,false);
+        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if(player==null) return;
         MovementController playerController = player.GetComponent<MovementController>();
@@ -36,7 +36,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void Close()
     {
-        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f,false);
+        AudioManager.instance.PlaySoundOneShot("Botones_Menu","Botones_Menu", 0.5f);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         InputManager.ChangeActionMap("Player");

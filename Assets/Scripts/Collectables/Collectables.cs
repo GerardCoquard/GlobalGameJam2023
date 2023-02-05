@@ -1,21 +1,31 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class Collectables : MonoBehaviour
 {
     public static Collectables instance;
-    public Animator anim;
+    Animator anim;
     public List<GameObject> collectables = new List<GameObject>();
+    public delegate void Collected();
+    public static event Collected OnCollected;
     private void Awake()
     {
         if(instance == null) instance = this;
+    }
+    private void Start() {
+        anim = GetComponent<Animator>();
     }
     public void CompleteOne()
     {
         foreach (GameObject item in collectables)
         {
-            if (!item.activeSelf) item.SetActive(true); break;
-            
+            if (!item.activeInHierarchy)
+            {
+                item.SetActive(true);
+                OnCollected?.Invoke();
+                break;
+            }
         }
         CheckIfAllCompleted();
     }
@@ -23,10 +33,8 @@ public class Collectables : MonoBehaviour
     {
         foreach (GameObject item in collectables)
         {
-            if (!item.activeSelf) return;
+            if (!item.activeInHierarchy) return;
         }
         anim.Play("Cinematic");
     }
 }
-
-
