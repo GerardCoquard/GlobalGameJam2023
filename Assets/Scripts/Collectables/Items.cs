@@ -13,7 +13,8 @@ public class Items : MonoBehaviour
     {
         if(picked) return;
         picked = true;
-        anim.Play("Picked");
+        AudioManager.instance.PlaySoundOneShot("Collectable","Collectable",0.5f);
+        anim.SetBool("Picked",true);
     }
     public void AnimEvent()
     {

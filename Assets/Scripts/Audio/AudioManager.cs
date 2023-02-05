@@ -28,10 +28,10 @@ public class AudioManager : MonoBehaviour
     {
         FillDictionary();
 
-        float vol2 = Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume")) * multiplier;
+        float vol2 = Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume",0.1f)) * multiplier;
         m_MyAudioMixer.SetFloat("MusicVolume", vol2);
 
-        float vol3 = Mathf.Log10(PlayerPrefs.GetFloat("SFXVolume")) * multiplier;
+        float vol3 = Mathf.Log10(PlayerPrefs.GetFloat("SFXVolume",0.1f)) * multiplier;
         m_MyAudioMixer.SetFloat("SFXVolume", vol3);
 
         m_MyMusicSource.clip = musicPlaylist[currentIndex];

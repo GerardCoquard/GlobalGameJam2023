@@ -29,24 +29,24 @@ public class Options : MonoBehaviour
     {
         musicFill.fillAmount = volume;
         PlayerPrefs.SetFloat("MusicVolume", volume);
-        float vol2 = Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume"))*multiplier;
+        float vol2 = Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume",0.1f))*multiplier;
         volMixer.SetFloat("MusicVolume", vol2);
     }
     public void SetVolumeSFX(float volume)
     {
         sfxFill.fillAmount = volume;
         PlayerPrefs.SetFloat("SFXVolume", volume);
-        float vol3 = Mathf.Log10(PlayerPrefs.GetFloat("SFXVolume"))*multiplier;
+        float vol3 = Mathf.Log10(PlayerPrefs.GetFloat("SFXVolume",0.1f))*multiplier;
         volMixer.SetFloat("SFXVolume", vol3);
     }
     void SetSliders()
     {
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.6f);
+        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.1f);
         musicFill.fillAmount = musicSlider.value;
         float vol2 = Mathf.Log10(PlayerPrefs.GetFloat("MusicVolume"))*multiplier;
         volMixer.SetFloat("MusicVolume", vol2);
         
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.75f);
+        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.1f);
         sfxFill.fillAmount = sfxSlider.value;
         float vol3 = Mathf.Log10(PlayerPrefs.GetFloat("SFXVolume"))*multiplier;
         volMixer.SetFloat("SFXVolume", vol3);

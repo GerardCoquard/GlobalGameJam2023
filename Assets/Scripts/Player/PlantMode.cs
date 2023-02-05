@@ -168,6 +168,7 @@ public class PlantMode : MonoBehaviour
         {
             if (controller != null)
             {
+                AudioManager.instance.PlaySoundOneShot("Deselect","Deselect",0.5f);
                 controller.StopGrow();
                 controller.StopDecreasing();
                 controller.SetUnselected();

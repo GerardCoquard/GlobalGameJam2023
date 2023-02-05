@@ -47,8 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionDuration: 4
   musicPlaylist:
-  - {fileID: 8300000, guid: 1d91dc08c6da05743933c8469e941ee3, type: 3}
-  - {fileID: 8300000, guid: d281f1c5eda2d324c8af34be1c15b054, type: 3}
+  - {fileID: 8300000, guid: 48979770338b38c489351abc1f3b371d, type: 3}
+  - {fileID: 8300000, guid: ede149d774aa1dc4fbee548e7fe04b57, type: 3}
+  - {fileID: 8300000, guid: 1afc3354e5cb97e429f425eddff5d081, type: 3}
   m_MyMusicSource: {fileID: 3112244148965340329}
   m_MyAudioMixer: {fileID: 24100000, guid: 1716671e1b77a264c842c83df7e5873b, type: 2}
 --- !u!1 &3112244148965340331
