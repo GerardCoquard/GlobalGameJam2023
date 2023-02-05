@@ -20,10 +20,7 @@ public class Collectables : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.O)) CheckIfAllCompleted();
-    }
+
     public void Purify()
     {
         lake.Purify();
@@ -32,6 +29,11 @@ public class Collectables : MonoBehaviour
     public void LoadNextScene()
     {
         SceneManager.LoadScene("Mapa2Simple");
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene("Menu");
     }
     public void CompleteOne()
     {
