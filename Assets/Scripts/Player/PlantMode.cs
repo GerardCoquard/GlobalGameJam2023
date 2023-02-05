@@ -132,18 +132,16 @@ public class PlantMode : MonoBehaviour
         {
             if (InputManager.GetAction("Interact").WasPressedThisFrame())
             {
-                Destroy(hit.collider.gameObject);
-                //FinalConditionManager.instance.CompleteOne();
-               
+                hit.collider.GetComponent<Items>().PickItem();
             }
         }
         if (Physics.Raycast(ray, out hit, distance, interactPlantLayerMask))
         {
-            AudioManager.instance.PlaySound("SelectPlant", 0.5f);
             RootController newController = hit.transform.GetComponentInParent<RootController>();
             if(controller==null)
             {
                 controller = newController;
+                controller.picked = true;
                 fillRoot.ChangeState(true);
                 return;
             }
@@ -151,9 +149,10 @@ public class PlantMode : MonoBehaviour
             {
                 controller.StopGrow();
                 controller.StopDecreasing();
+                controller.SetUnselected();
                 scenePointer.DespawnPointer();
-
                 controller = newController;
+                controller.picked = true;
                 fillRoot.ChangeState(true);
             }       
         }
@@ -163,6 +162,7 @@ public class PlantMode : MonoBehaviour
             {
                 controller.StopGrow();
                 controller.StopDecreasing();
+                controller.SetUnselected();
                 scenePointer.DespawnPointer();
                 fillRoot.ChangeState(false);
                 controller = null;
