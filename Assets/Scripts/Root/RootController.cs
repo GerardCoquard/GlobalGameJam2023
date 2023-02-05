@@ -177,16 +177,23 @@ public class RootController : MonoBehaviour
     {
         timeOffline = 0;
         picked = false;
-        StartCoroutine(ResetTimer());
+        StopAllCoroutines();
+        StartCoroutine(ResetTheTimer(id));
     }
-    IEnumerator ResetTimer()
+    IEnumerator ResetTheTimer(int _id)
     {
+        if(_id != id) yield break;
         while(timeOffline < resetTime && !picked)
         {
             timeOffline+=Time.deltaTime;
             yield return null;
         }
-       StartDecreasing();
+        if(!picked) StartDecreasing();
+    }
+    public void SetSelected()
+    {
+        picked = true;
+        timeOffline = 0;
     }
     public bool CheckCollision(Vector3 initialPosition)
     {

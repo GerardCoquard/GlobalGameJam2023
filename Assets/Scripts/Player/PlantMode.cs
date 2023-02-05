@@ -132,7 +132,7 @@ public class PlantMode : MonoBehaviour
                 if(controller==null)
                 {
                     controller = newController;
-                    controller.picked = true;
+                    controller.SetSelected();
                     fillRoot.ChangeState(true);
                     return;
                 }
@@ -143,7 +143,7 @@ public class PlantMode : MonoBehaviour
                     controller.SetUnselected();
                     scenePointer.DespawnPointer();
                     controller = newController;
-                    controller.picked = true;
+                    controller.SetSelected();
                     fillRoot.ChangeState(true);
                 }
             }
