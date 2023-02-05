@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5526163878464941302}
   - component: {fileID: 3849720241136294277}
   - component: {fileID: 5000583225656114905}
-  m_Layer: 0
+  - component: {fileID: 2871071213728002958}
+  m_Layer: 6
   m_Name: Roca_Cami4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,3 +84,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2871071213728002958
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7392197305887707264}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7303995526650059030, guid: 8fa1933f4cc8df0419ee2e284c8aaca6, type: 3}

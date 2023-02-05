@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7754170294629307367}
   - component: {fileID: 6643798297692281922}
   - component: {fileID: 8923728799252342920}
-  m_Layer: 0
+  - component: {fileID: -3548605581004199993}
+  m_Layer: 6
   m_Name: Maderas_superiores_separadas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,3 +84,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-3548605581004199993
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6978196094235986269}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5736073097501886028, guid: 8fcc0805bac2f8c48818c9e1e5ae6993, type: 3}

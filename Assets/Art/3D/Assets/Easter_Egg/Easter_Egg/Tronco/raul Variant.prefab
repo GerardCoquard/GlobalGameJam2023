@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: bbf07561951ec71499ed3c0489e7f822,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bbf07561951ec71499ed3c0489e7f822,
         type: 3}
@@ -86,7 +86,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bbf07561951ec71499ed3c0489e7f822,
         type: 3}
       propertyPath: m_Name
-      value: raul
+      value: raul Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bbf07561951ec71499ed3c0489e7f822,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -95,8 +100,40 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7076284386805365770}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bbf07561951ec71499ed3c0489e7f822,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3065262932058150108}
   m_SourcePrefab: {fileID: 100100000, guid: bbf07561951ec71499ed3c0489e7f822, type: 3}
+--- !u!1 &4025904495132408022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bbf07561951ec71499ed3c0489e7f822,
+    type: 3}
+  m_PrefabInstance: {fileID: 4260276737776993671}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &3065262932058150108
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4025904495132408022}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3525479140033381557, guid: bbf07561951ec71499ed3c0489e7f822, type: 3}
 --- !u!4 &4365450812419449452 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bbf07561951ec71499ed3c0489e7f822,
@@ -191,10 +228,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: Palo_easter_egg (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b5c729a1e1bedac43b7032f19cf16a0d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b5c729a1e1bedac43b7032f19cf16a0d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8173252905695270358}
   m_SourcePrefab: {fileID: 100100000, guid: b5c729a1e1bedac43b7032f19cf16a0d, type: 3}
 --- !u!4 &7076284386805365770 stripped
 Transform:
@@ -202,3 +248,31 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7331502117834742753}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7602027263933900464 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b5c729a1e1bedac43b7032f19cf16a0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7331502117834742753}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8173252905695270358
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7602027263933900464}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3163171260390484736, guid: b5c729a1e1bedac43b7032f19cf16a0d, type: 3}

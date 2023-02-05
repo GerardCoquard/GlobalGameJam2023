@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e507cb1d6dca1c2479b10643d0ff1733,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e507cb1d6dca1c2479b10643d0ff1733,
         type: 3}
@@ -71,10 +71,47 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e507cb1d6dca1c2479b10643d0ff1733,
         type: 3}
       propertyPath: m_Name
-      value: Planta_2
+      value: Planta_2 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e507cb1d6dca1c2479b10643d0ff1733,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e507cb1d6dca1c2479b10643d0ff1733,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3217523150798006984}
   m_SourcePrefab: {fileID: 100100000, guid: e507cb1d6dca1c2479b10643d0ff1733, type: 3}
+--- !u!1 &2405392095816036329 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e507cb1d6dca1c2479b10643d0ff1733,
+    type: 3}
+  m_PrefabInstance: {fileID: 3287841634744046264}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &3217523150798006984
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405392095816036329}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1098452040131928631, guid: e507cb1d6dca1c2479b10643d0ff1733, type: 3}

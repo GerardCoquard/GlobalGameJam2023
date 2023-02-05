@@ -78,10 +78,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3215555783603854218, guid: 4d46ba9d14d53de4882ab6e686721289,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1018664272722485354, guid: 4d46ba9d14d53de4882ab6e686721289,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4d46ba9d14d53de4882ab6e686721289,
         type: 3}
       propertyPath: m_Name
       value: Setas Marrones Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4d46ba9d14d53de4882ab6e686721289,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424396828587804706, guid: 4d46ba9d14d53de4882ab6e686721289,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6317578925029434746, guid: 4d46ba9d14d53de4882ab6e686721289,
         type: 3}

@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 626164761468109565}
   - component: {fileID: 2184387789769257061}
   - component: {fileID: 5523819778810148769}
-  m_Layer: 0
+  - component: {fileID: 836379310219876401}
+  m_Layer: 6
   m_Name: Ventana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,6 +84,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &836379310219876401
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309473056742788597}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4440879138503416625, guid: b8f904bafc07b1844b1c5736b6a3f63f, type: 3}
 --- !u!1 &4749670972364701496
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +115,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5377834762532054402}
-  m_Layer: 0
+  - component: {fileID: 2309060808598130467}
+  m_Layer: 6
   m_Name: TechoConEscotilla (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,6 +140,28 @@ Transform:
   m_Father: {fileID: 4989245422719330416}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &2309060808598130467
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749670972364701496}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &5653861325384561354
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +174,7 @@ GameObject:
   - component: {fileID: 8255810404419299285}
   - component: {fileID: 6158233354491794207}
   - component: {fileID: 8911162914409768470}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CasaV3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +195,7 @@ Transform:
   m_Children:
   - {fileID: 5377834762532054402}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: -152.6}
 --- !u!33 &8255810404419299285
 MeshFilter:
@@ -235,7 +281,8 @@ GameObject:
   - component: {fileID: 6451784687714317429}
   - component: {fileID: 8256448427818286095}
   - component: {fileID: 2882543171500715701}
-  m_Layer: 0
+  - component: {fileID: 6380825951389087490}
+  m_Layer: 6
   m_Name: Techo barn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,3 +355,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6380825951389087490
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8636208368214645178}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1151521998787244357, guid: b8f904bafc07b1844b1c5736b6a3f63f, type: 3}
