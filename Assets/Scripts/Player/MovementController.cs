@@ -11,6 +11,8 @@ public class MovementController : MonoBehaviour
     [SerializeField] float jumpSpeed = 10.0f;
     [SerializeField] float coyoteTime = 0.0f;
     [SerializeField] float maxVerticalVelocity;
+    public string audioJump;
+    public string audioStep;
     [SerializeField] List<AudioClip> jumps = new List<AudioClip>();
     [SerializeField] List<AudioClip> steps = new List<AudioClip>();
     CharacterController controller;
@@ -53,7 +55,7 @@ public class MovementController : MonoBehaviour
             
             if(currentTime>= maxTimeBetweenSteps)
             {
-                AudioManager.instance.PlayRandomSound(steps);
+                AudioManager.instance.PlaySoundOneShot(audioStep,steps[Random.Range(0,steps.Count)].name,1,false);
                 currentTime = 0;
             }
         }
@@ -62,7 +64,7 @@ public class MovementController : MonoBehaviour
     {
         if (InputManager.GetAction("Jump").WasPressedThisFrame() && onGround)
         {
-            if(velocity.y<=0)AudioManager.instance.PlayRandomSound(jumps);
+            if(velocity.y<=0)AudioManager.instance.PlaySoundOneShot(audioJump,jumps[Random.Range(0,jumps.Count)].name,1,false);
             velocity.y = jumpSpeed;
         }
     }

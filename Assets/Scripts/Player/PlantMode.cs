@@ -80,7 +80,7 @@ public class PlantMode : MonoBehaviour
     void StopGrow()
     {
 
-        AudioManager.instance.StopSoundLoop("RaizesCreciendo");
+        //AudioManager.instance.StopSoundLoop("RaizesCreciendo");
         if (controller.GetGrowing())
         {
  

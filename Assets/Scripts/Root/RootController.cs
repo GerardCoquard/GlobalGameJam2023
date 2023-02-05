@@ -177,7 +177,7 @@ public class RootController : MonoBehaviour
             timeOffline+=Time.deltaTime;
             yield return null;
         }
-        StartCoroutine(Decrease());
+       StartDecreasing();
     }
     public bool CheckCollision(Vector3 initialPosition)
     {

@@ -12,13 +12,11 @@ public class Button : MonoBehaviour
         
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") || other.gameObject.layer == LayerMask.NameToLayer("Root"))
         {
-            AudioManager.instance.PlaySound("ButtonClicked", 0.5f);
+            AudioManager.instance.PlaySoundOneShot("ButtonClicked","ButtonClicked", 0.5f,false);
             CheckList();
             if (pressers.Contains(other.gameObject)) return;
             pressers.Add(other.gameObject);
-            if(pressers.Count == 1) action?.Invoke();
-
-            
+            if(pressers.Count == 1) action?.Invoke(); 
         }
        
     }
