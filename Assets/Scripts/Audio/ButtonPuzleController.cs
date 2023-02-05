@@ -9,11 +9,12 @@ public class ButtonPuzleController : MonoBehaviour
     public Animator anim;
     public void CheckCompletion()
     {
+        Debug.Log("checking!");
         foreach (Button button in m_Buttons)
         {
             if (!button.GetPressed()) return;
-
         }
+        Debug.Log("DONE!");
         anim.Play("Cutscene");
     }
 }
