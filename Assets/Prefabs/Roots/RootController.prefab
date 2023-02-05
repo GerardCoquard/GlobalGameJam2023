@@ -56,7 +56,7 @@ MonoBehaviour:
   m_CollisionDetectionLayers:
     serializedVersion: 2
     m_Bits: 1600
-  resetTime: 20
+  resetTime: 50
   picked: 0
 --- !u!1001 &1469591032729112340
 PrefabInstance:
