@@ -19,7 +19,7 @@ public class Rock : MonoBehaviour
     public Button button;
     private void Start()
     {
-        
+        transform.position = closePos.position;
     }
     private void Update()
     {

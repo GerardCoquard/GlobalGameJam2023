@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ButtonPuzleController :MonoBehaviour
+public class ButtonPuzleController : MonoBehaviour
 {
     public List<Button> m_Buttons;
-    public UnityEvent m_ActionWhenCompleted;
+    public Animator anim;
     public void CheckCompletion()
     {
         foreach (Button button in m_Buttons)
@@ -13,14 +14,6 @@ public class ButtonPuzleController :MonoBehaviour
             if (!button.GetPressed()) return;
 
         }
-        m_ActionWhenCompleted?.Invoke();
+        anim.Play("Cutscene");
     }
-
-
-    public void Test()
-    {
-        Debug.Log("DO THING");
-    }
-
-    
 }

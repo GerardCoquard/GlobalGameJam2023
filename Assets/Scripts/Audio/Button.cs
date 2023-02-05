@@ -7,6 +7,10 @@ public class Button : MonoBehaviour
 {
     public UnityEvent action;
     public List<GameObject> pressers = new List<GameObject>();
+    public Animator anim;
+    private void Update() {
+        anim.SetBool("Pressed",GetPressed());
+    }
     private void OnTriggerEnter(Collider other)
     {
         

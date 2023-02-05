@@ -323,7 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 4
   speed: 5
-  speedMultiplier: 1
+  speedMultiplier: 2
   jumpSpeed: 1
   coyoteTime: 0.1
   maxVerticalVelocity: 3
