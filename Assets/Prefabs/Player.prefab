@@ -327,8 +327,16 @@ MonoBehaviour:
   jumpSpeed: 1
   coyoteTime: 0.1
   maxVerticalVelocity: 3
+  jumps:
+  - {fileID: 8300000, guid: 3760f6673e2186a4b9cc9492b75ca19a, type: 3}
+  - {fileID: 8300000, guid: 43da31cacabb3594ba8475ea3def5997, type: 3}
+  - {fileID: 8300000, guid: c8f33f8ab52769944ab9e7ee1a17437c, type: 3}
+  steps:
+  - {fileID: 8300000, guid: 039d53de986f46b47b06982dc424d1a1, type: 3}
+  - {fileID: 8300000, guid: a47b55f986f32eb449ca140ce568fbd3, type: 3}
   spawnPoint: {fileID: 2760048908084374221}
   velocity: {x: 0, y: 0, z: 0}
+  maxTimeBetweenSteps: 0.5
 --- !u!143 &4928685062507849263
 CharacterController:
   m_ObjectHideFlags: 0

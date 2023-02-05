@@ -12,7 +12,12 @@ public class ButtonRootAnimation : MonoBehaviour, IPointerEnterHandler, IPointer
     public Image image;
     int currentIndex;
     float frameTime;
+    private void OnEnable() {
+        currentIndex = animationSprites.Count-1;
+        image.sprite = animationSprites[currentIndex];
+    }
     private void Start() {
+        currentIndex = animationSprites.Count-1;
         image.sprite = animationSprites[currentIndex];
         frameTime = animationDuration/animationSprites.Count;
     }
@@ -34,12 +39,12 @@ public class ButtonRootAnimation : MonoBehaviour, IPointerEnterHandler, IPointer
     }
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        Enter();
+        Exit();
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        Exit();
+        Enter();
     }
 
     IEnumerator GoUpwards(float overTime)
@@ -69,11 +74,11 @@ public class ButtonRootAnimation : MonoBehaviour, IPointerEnterHandler, IPointer
 
     void ISelectHandler.OnSelect(BaseEventData eventData)
     {
-        Enter();
+        Exit();
     }
 
     void IDeselectHandler.OnDeselect(BaseEventData eventData)
     {
-        Exit();
+        Enter();
     }
 }

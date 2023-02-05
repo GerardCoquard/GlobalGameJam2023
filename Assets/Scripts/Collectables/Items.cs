@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Items : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    bool picked;
+    public Animator anim;
+    public void PickItem()
     {
-        
+        if(picked) return;
+        picked = true;
+        anim.Play("Picked");
     }
-
-    // Update is called once per frame
-    void Update()
+    public void AnimEvent()
     {
-        
+        Collectables.instance.CompleteOne();
+        DestroyImmediate(gameObject);
     }
 }

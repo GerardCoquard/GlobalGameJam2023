@@ -11,6 +11,7 @@ public class RootController : MonoBehaviour
     [SerializeField] float m_CollisionOffset = 0.5f;
     [SerializeField] float m_RootLength;
     [SerializeField] LayerMask m_CollisionDetectionLayers;
+    [SerializeField] float resetTime = 20;
     
     List<RootGrowController> m_CurrentRoots = new List<RootGrowController>();
     List<RootGrowController> m_TotalRoots = new List<RootGrowController>();
@@ -20,13 +21,17 @@ public class RootController : MonoBehaviour
     Vector3 m_NextPosition;
     bool growing;
     bool decreasing;
+    public bool picked;
+    float timeOffline;
     public void StrartGrowing(Vector3 target)
     {
+        timeOffline = 0;
         if(growing || decreasing) return;
         if (CheckMaxDistance()) StartCoroutine(Grow(target));
     }
     public void StartDecreasing()
     {
+        timeOffline = 0;
         if(growing || decreasing) return;
         if(m_TotalDistance > 0) StartCoroutine(Decrease());
     }
@@ -81,7 +86,7 @@ public class RootController : MonoBehaviour
         RootGrowController lastRoot = m_TotalRoots[m_TotalRoots.Count-1];
         Vector3 l_DirectioNode = lastRoot.GetGrowAmount()*m_RootLength * lastRoot.transform.forward;
         Vector3 l_NodePosition = lastRoot.transform.position + l_DirectioNode;
-        GameObject l_node = Instantiate(m_NodePrefab, l_NodePosition, Quaternion.identity);
+        GameObject l_node = Instantiate(m_NodePrefab, l_NodePosition, lastRoot.transform.rotation);
         l_node.transform.SetParent(transform);
 
         m_TotalDistance += m_Distance;
@@ -158,6 +163,21 @@ public class RootController : MonoBehaviour
         Vector3 desiredPosition = lastRoot.transform.position + desiredDir;
 
         node.transform.position = desiredPosition;
+    }
+    public void SetUnselected()
+    {
+        timeOffline = 0;
+        picked = false;
+        StartCoroutine(ResetTimer());
+    }
+    IEnumerator ResetTimer()
+    {
+        while(timeOffline < resetTime && !picked)
+        {
+            timeOffline+=Time.deltaTime;
+            yield return null;
+        }
+        StartCoroutine(Decrease());
     }
     public bool CheckCollision(Vector3 initialPosition)
     {

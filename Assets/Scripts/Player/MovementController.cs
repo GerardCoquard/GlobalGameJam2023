@@ -47,7 +47,7 @@ public class MovementController : MonoBehaviour
         CollisionFlags collisionFlags = controller.Move(movement * (sprinting ? speed*speedMultiplier : speed) * Time.deltaTime);
         CheckCollision(collisionFlags);
        
-        if(move != Vector2.zero)
+        if(move != Vector2.zero && onGround)
         {
             currentTime += Time.deltaTime;
             
@@ -62,7 +62,7 @@ public class MovementController : MonoBehaviour
     {
         if (InputManager.GetAction("Jump").WasPressedThisFrame() && onGround)
         {
-            AudioManager.instance.PlayRandomSound(jumps);
+            if(velocity.y<=0)AudioManager.instance.PlayRandomSound(jumps);
             velocity.y = jumpSpeed;
         }
     }
