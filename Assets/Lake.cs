@@ -16,7 +16,11 @@ public class Lake : MonoBehaviour
     public float timeToTransition;
     private void Start() {
         _renderer = GetComponent<Renderer>();
+        _renderer.material.SetColor("_BaseColor", toxicColor);
+        _renderer.material.SetColor("_VoronoiColor", voronoiToxicColor);
     }
+
+    
     public void Purify()
     {
         StartCoroutine(LerpIt());
