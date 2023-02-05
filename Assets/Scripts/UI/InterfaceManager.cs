@@ -21,6 +21,7 @@ public class InterfaceManager : MonoBehaviour
 
     void OpenPauseMenu()
     {
+        if (PopUp.instance.PopUpState()) return;
         pauseMenuObject.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
