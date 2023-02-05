@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantDistance: 50
-  collectableDistance: 2
+  collectableDistance: 4
   cam: {fileID: 4928685061363586217}
   interactPlantLayerMask:
     serializedVersion: 2
