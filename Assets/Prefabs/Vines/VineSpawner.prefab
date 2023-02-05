@@ -49,6 +49,8 @@ MonoBehaviour:
   - {fileID: 1224512408517385439, guid: 86b5ca8a4ba4a054a81b72184e83343a, type: 3}
   - {fileID: 1224512408517385439, guid: 86b5ca8a4ba4a054a81b72184e83343a, type: 3}
   leafAmount: 0.026
+  numberOfBranches: 5
+  maxDistance: 3
   vineTopMat: {fileID: 2100000, guid: e1edbb0b571ff0d4e82309352d5e440c, type: 2}
   vineBottomMat: {fileID: 2100000, guid: ca83f7d555b4c2640a2dd74a8c58a44e, type: 2}
   branchThickness: 0.15
